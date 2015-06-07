@@ -18,6 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Titel"
+
                 android:id="@+id/txtTitle"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
@@ -29,6 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Start"
+                android:inputType="date"
                 android:id="@+id/txtStartDate"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
@@ -40,6 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Ende"
+                android:inputType="date"
                 android:id="@+id/txtEndDate"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 

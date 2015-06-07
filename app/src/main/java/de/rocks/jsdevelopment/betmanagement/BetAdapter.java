@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by Sebastian on 06.06.2015.
+ * Created by Cazzador on 06.06.2015.
  */
 public class BetAdapter extends ArrayAdapter<BetItem> {
 
@@ -27,12 +27,11 @@ public class BetAdapter extends ArrayAdapter<BetItem> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.betlistitem, parent, false);
         }
 
-        // Lookup view for data population
-        TextView ShortDescription = (TextView) convertView.findViewById(R.id.txtShortDescription);
-        TextView Period = (TextView) convertView.findViewById(R.id.txtPeriod);
-        ShortDescription.setText(Bet.ShortDescription);
-        Period.setText(Bet.getPeriod());
+        TextView Title = (TextView) convertView.findViewById(R.id.txtListTitle);
+        TextView Period = (TextView) convertView.findViewById(R.id.txtListPeriod);
 
+        Title.setText(Bet.Title);
+        Period.setText(Bet.getPeriod());
 
         return convertView;
     }

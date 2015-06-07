@@ -4,17 +4,12 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/txtPeriod"
+        android:id="@+id/txtListPeriod"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/txtShortDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/txtIFullDescription"
+        android:id="@+id/txtListTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
