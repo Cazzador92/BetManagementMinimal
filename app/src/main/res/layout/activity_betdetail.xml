@@ -10,53 +10,70 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="de.rocks.jsdevelopment.betmanagement.BetDetailActivity">
 
-    <com.wrapp.floatlabelededittext.FloatLabeledEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <EditText
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Titel"
+                android:id="@+id/txtTitle"/>
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Start"
+                android:id="@+id/txtStartDate"/>
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Ende"
+                android:id="@+id/txtEndDate"/>
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="This is the hint" />
-    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+            float:fletTextAppearance="@style/floatlabelededittext">
 
-    <!-- add some padding -->
-    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Beschreibung"
+                android:id="@+id/txtDescription"/>
+<!--
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Dafür"
+                android:id="@+id/lvForBet"/>
+
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Dagegen"
+                android:id="@+id/lvAgainstBet"/>
+-->
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        float:fletPadding="10dp">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Username" />
-    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-
-    <!-- password input -->
-    <com.wrapp.floatlabelededittext.FloatLabeledEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        float:fletPaddingBottom="10dp">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textPassword" />
-    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-
-    <!-- change color of hint text-->
-    <com.wrapp.floatlabelededittext.FloatLabeledEditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        float:fletPaddingBottom="10dp"
-        float:fletTextAppearance="@style/floatlabelededittext">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Styled Hint"
-            android:inputType="textPassword" />
-    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+        android:hint="Speichern"
+        android:id="@+id/txtSave" />
 
 </LinearLayout>
