@@ -20,6 +20,9 @@ import java.util.TimeZone;
 
 public class StartActivity extends ActionBarActivity{
 
+    private ListView LVBets;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,11 +56,12 @@ public class StartActivity extends ActionBarActivity{
 
     private void FillBetList()
     {
-        ListView LVBets = (ListView) findViewById(R.id.LVBets);
+        LVBets = (ListView) findViewById(R.id.LVBets);
 
-        ArrayList<BetItem> Bets = getBetList();
-        BetAdapter BetAdapter = new BetAdapter(this,Bets);
+        //ArrayList<BetItem> Bets = getBetList();
+        //BetAdapter BetAdapter = new BetAdapter(this,getBetList());
 
+        //Kurzer Klick zum bearbeiten.
         LVBets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                               BetItem Bet = (BetItem)parent.getAdapter().getItem(position);
@@ -66,7 +70,18 @@ public class StartActivity extends ActionBarActivity{
                                           }
                                       });
 
-        LVBets.setAdapter(BetAdapter);
+        //Lange Klicken = Löschen einer Wette.
+        LVBets.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                BetItem Bet = (BetItem)parent.getAdapter().getItem(position);
+                Bet.Delete(view.getContext());
+                return true;
+            }
+        });
+
+        //Adapter setzen und laden.
+        LVBets.setAdapter(new BetAdapter(this,getBetList()));
     }
 
     private void OpenBetDetails(BetItem Bet){
