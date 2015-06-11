@@ -96,7 +96,9 @@ public class BetItem implements Serializable {
         DB.beginTransaction();
 
         try {
+
             DB.insert("Bets", null, content);
+
             DB.setTransactionSuccessful();
         } finally {
             DB.endTransaction();
