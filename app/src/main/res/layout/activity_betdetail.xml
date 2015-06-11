@@ -1,5 +1,4 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:float="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,73 +10,73 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="de.rocks.jsdevelopment.betmanagement.BetDetailActivity">
 
-        <com.wrapp.floatlabelededittext.FloatLabeledEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Titel"
-
-                android:id="@+id/txtTitle"/>
-        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-
-        <com.wrapp.floatlabelededittext.FloatLabeledEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Start"
-                android:inputType="date"
-                android:id="@+id/txtStartDate"/>
-        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-
-        <com.wrapp.floatlabelededittext.FloatLabeledEditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Ende"
-                android:inputType="date"
-                android:id="@+id/txtEndDate"/>
-        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-
-        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+        <EditText
+            android:id="@+id/txtTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            float:fletTextAppearance="@style/floatlabelededittext">
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Beschreibung"
-                android:id="@+id/txtDescription"/>
-<!--
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Dafür"
-                android:id="@+id/lvForBet"/>
+            android:hint="Titel" />
+    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/txtStartDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Start"
+            android:inputType="date" />
+    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/txtEndDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ende"
+            android:inputType="date" />
+    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        float:fletTextAppearance="@style/floatlabelededittext">
+
+        <EditText
+            android:id="@+id/txtDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Beschreibung" />
+        <!--
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Dafür"
+                        android:id="@+id/lvForBet"/>
 
 
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Dagegen"
-                android:id="@+id/lvAgainstBet"/>
--->
-        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+                    <ListView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Dagegen"
+                        android:id="@+id/lvAgainstBet"/>
+        -->
+    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
 
     <Button
+        android:id="@+id/txtSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Speichern"
-        android:id="@+id/txtSave" />
+        android:hint="Speichern" />
 
 </LinearLayout>

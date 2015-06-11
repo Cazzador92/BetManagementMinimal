@@ -13,7 +13,7 @@ import java.util.Date;
 /**
  * Created by Cazzador on 04.06.2015.
  */
-public class BetItem implements Serializable{
+public class BetItem implements Serializable {
 
     public Integer ID;
     public String Title;
@@ -47,73 +47,69 @@ public class BetItem implements Serializable{
         return this.ID + ". " + this.Title;
     }
 
-    public String getPeriod()
-    {
+    public String getPeriod() {
         return this.getStart() + " - " + this.getEnd();
     }
 
-    public String getStart(){
+    public String getStart() {
         return getStart("dd-MM-yyyy");
     }
 
-    public String getStart(String Format){
+    public String getStart(String Format) {
         SimpleDateFormat sdf = new SimpleDateFormat(Format);
         return sdf.format(Start.getTime());
     }
 
-    public String getEnd(){
+    public String getEnd() {
         return getEnd("dd-MM-yyyy");
     }
 
-    public String getEnd(String Format){
+    public String getEnd(String Format) {
         SimpleDateFormat sdf = new SimpleDateFormat(Format);
         return sdf.format(End.getTime());
     }
 
-    public void Save(Context context)
-    {
+    public void Save(Context context) {
         DBHelper = new SQLiteHelper(context);
         DB = DBHelper.getWritableDatabase();
 
-        if(ID == 0){
+        if (ID == 0) {
             Create();
-        }else{
+        } else {
             Update();
         }
     }
 
-    private void Create()
-    {
+    private void Create() {
         ContentValues content = new ContentValues();
 
         content.clear();
 
         //content.put("_ID",2);
-        content.put("Title",Title);
-        content.put("Description",Description);
-        content.put("Start",Start.getTimeInMillis());
+        content.put("Title", Title);
+        content.put("Description", Description);
+        content.put("Start", Start.getTimeInMillis());
         content.put("End", End.getTimeInMillis());
 
         DB.beginTransaction();
 
         try {
-            DB.insert("Bets",null,content);
+            DB.insert("Bets", null, content);
             DB.setTransactionSuccessful();
-        }finally {
+        } finally {
             DB.endTransaction();
         }
     }
 
-    private void Update()
-    {
+    private void Update() {
         ContentValues content = new ContentValues();
 
         content.clear();
 
         //content.put("_ID",2);
-        content.put("Title",Title);
-        content.put("Description",Description);
-        content.put("Start",Start.getTimeInMillis());
+        content.put("Title", Title);
+        content.put("Description", Description);
+        content.put("Start", Start.getTimeInMillis());
         content.put("End", End.getTimeInMillis());
 
         DB.beginTransaction();
@@ -122,22 +118,21 @@ public class BetItem implements Serializable{
             DB.update("Bets", content, "_ID = ?",
                     new String[]{String.valueOf(ID)});
             DB.setTransactionSuccessful();
-        }finally {
+        } finally {
             DB.endTransaction();
         }
     }
 
-    public void Delete(Context context)
-    {
+    public void Delete(Context context) {
         DBHelper = new SQLiteHelper(context);
         DB = DBHelper.getWritableDatabase();
 
         DB.beginTransaction();
         try {
-            DB.delete("Bets","_ID = ?",
+            DB.delete("Bets", "_ID = ?",
                     new String[]{String.valueOf(ID)});
             DB.setTransactionSuccessful();
-        }finally {
+        } finally {
             DB.endTransaction();
         }
     }

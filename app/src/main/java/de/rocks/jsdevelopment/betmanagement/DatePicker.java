@@ -12,7 +12,7 @@ import java.util.Calendar;
 /**
  * Created by Cazzador on 24.01.2015.
  */
-public class DatePicker extends DialogFragment implements DatePickerDialog.OnDateSetListener{
+public class DatePicker extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     protected Calendar calendar;
     protected int Year;
@@ -20,7 +20,7 @@ public class DatePicker extends DialogFragment implements DatePickerDialog.OnDat
     protected int Day;
     protected int TargetFieldID;//Zielfeld für das Datum.
 
-    public DatePicker(){
+    public DatePicker() {
         this.TargetFieldID = 0;
         this.calendar = Calendar.getInstance();
         this.Year = calendar.get((Calendar.YEAR));
@@ -29,7 +29,7 @@ public class DatePicker extends DialogFragment implements DatePickerDialog.OnDat
     }
 
     //TODO Bundle nutzen. -> wie geht das, ist keine activity.
-    public DatePicker(Integer TargetFieldID){
+    public DatePicker(Integer TargetFieldID) {
         this.TargetFieldID = TargetFieldID;
         this.calendar = Calendar.getInstance();
         this.Year = calendar.get((Calendar.YEAR));
@@ -65,9 +65,7 @@ public class DatePicker extends DialogFragment implements DatePickerDialog.OnDat
     }
 
 
-
-    public Calendar getCalendar()
-    {
+    public Calendar getCalendar() {
         return this.calendar;
     }
 }

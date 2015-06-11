@@ -14,12 +14,12 @@ import java.util.ArrayList;
  */
 public class BetAdapter extends ArrayAdapter<BetItem> {
 
-    public BetAdapter(Context context,ArrayList<BetItem> bets ){
-        super(context,0,bets);
+    public BetAdapter(Context context, ArrayList<BetItem> bets) {
+        super(context, 0, bets);
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(int position, View convertView, ViewGroup parent) {
 
         BetItem Bet = getItem(position);
 

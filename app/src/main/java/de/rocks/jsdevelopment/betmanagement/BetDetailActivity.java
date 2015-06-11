@@ -41,7 +41,7 @@ public class BetDetailActivity extends Activity {
         AddHandler();
     }
 
-    private void SetBetDetails(){
+    private void SetBetDetails() {
         Title = (EditText) findViewById(R.id.txtTitle);
         Start = (EditText) findViewById(R.id.txtStartDate);
         End = (EditText) findViewById(R.id.txtEndDate);
@@ -77,8 +77,7 @@ public class BetDetailActivity extends Activity {
     }
     */
 
-    public void AddHandler()
-    {
+    public void AddHandler() {
 
         Start.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
@@ -87,7 +86,7 @@ public class BetDetailActivity extends Activity {
                 if (hasFocus) {
                     DialogFragment DF = new DatePicker(R.id.txtStartDate);
                     DF.show(getFragmentManager(), "OpenDatePicker");//
-                    Bet.Start = ((DatePicker)DF).getCalendar();
+                    Bet.Start = ((DatePicker) DF).getCalendar();
 
                     Start.setText("");
                 }
@@ -101,7 +100,7 @@ public class BetDetailActivity extends Activity {
                 if (hasFocus) {
                     DialogFragment DF = new DatePicker(R.id.txtEndDate);
                     DF.show(getFragmentManager(), "OpenDatePicker");
-                    Bet.Start = ((DatePicker)DF).getCalendar();
+                    Bet.Start = ((DatePicker) DF).getCalendar();
 
                     End.setText("");
                 }
