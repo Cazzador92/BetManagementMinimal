@@ -12,6 +12,16 @@ import java.util.Date;
  */
 public class SQLiteHelper extends SQLiteOpenHelper {
 
+    private final String DB_NAME = "BetManagementDB";
+
+    private final String TABLE_BETS = "bets";
+
+    private final String COL_ID = "_id";
+    private final String COL_TITLE = "Title";
+    private final String COL_DESCRIPTION = "Description";
+    private final String COL_START = "Start";
+    private final String COL_END = "End";
+
     public SQLiteHelper(Context context) {
         super(context, "BetManagementDB", null, 1);
     }
@@ -21,38 +31,41 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         ContentValues content = new ContentValues();
 
-        DB.execSQL("DROP TABLE IF EXISTS Bets");//TODO Später rausnehmen wenn Werte nicht fest über den code eingegeben werden.
+        //TODO Später rausnehmen wenn Werte nicht fest über den code eingegeben werden.
+        // wird nie gebraucht, da onCreate nur aufgerufen wird wenn die DB neu erstellt wird
+        //DB.execSQL("DROP TABLE IF EXISTS Bets");
 
-        DB.execSQL("CREATE TABLE IF NOT EXISTS Bets" +
-                "  (_ID int AUTO_INCREMENT PRIMARY KEY," +
-                "   Title Text NULL," +
-                "   Description Text NULL," +
-                "   Start Long NULL," + //Datum in Millisekunden (Long) speichern -> Einfacher + von Date & Calendar unterstützt.
-                "   End Long NULL" +
-                "    );");
-
-        content.clear();
-        content.put("_ID",1);
-        content.put("Title","ErsterTitel");
-        content.put("Description","ErsteBeschreibung");
-        content.put("Start",System.currentTimeMillis());
-        content.put("End",System.currentTimeMillis() + (86400000 * 10));// jetzt + 3 tage   86400000 -> 1 Tag in Millisekunden.
-
-        DB.insert("Bets",null,content);
+        DB.execSQL("CREATE TABLE " + TABLE_BETS + " ( " +
+                COL_ID + " int AUTO_INCREMENT PRIMARY KEY, " +
+                COL_TITLE + " Text NULL, " +
+                COL_DESCRIPTION + " Text NULL, " +
+                COL_START + " Long NULL, " + //Datum in Millisekunden (Long) speichern -> Einfacher + von Date & Calendar unterstützt.
+                COL_END + " Long NULL " +
+                " );");
 
         content.clear();
-        content.put("_ID",2);
-        content.put("Title","ZweiterTitel");
-        content.put("Description","ZweitBeschreibung");
-        content.put("Start",System.currentTimeMillis() + (86400000 * 15));
-        content.put("End",System.currentTimeMillis() + (86400000 * 30));
-        DB.insert("Bets",null,content);
-        //Connect schließen?
+        content.put(COL_ID,1);
+        content.put(COL_TITLE,"ErsterTitel");
+        content.put(COL_DESCRIPTION,"ErsteBeschreibung");
+        content.put(COL_START,System.currentTimeMillis());
+        content.put(COL_END,System.currentTimeMillis() + (86400000 * 10));// jetzt + 3 tage   86400000 -> 1 Tag in Millisekunden.
+
+        DB.insert(TABLE_BETS,null,content);
+
+        content.clear();
+        content.put(COL_ID, 2);
+        content.put(COL_TITLE, "ZweiterTitel");
+        content.put(COL_DESCRIPTION, "ZweitBeschreibung");
+        content.put(COL_START, System.currentTimeMillis() + (86400000 * 15));
+        content.put(COL_END, System.currentTimeMillis() + (86400000 * 30));
+
+        DB.insert(TABLE_BETS,null,content);
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //Todo später nicht vergessen.
+        //TODO onUpgrade Methode ergaenzen sobald gebraucht wird
     }
 }
 

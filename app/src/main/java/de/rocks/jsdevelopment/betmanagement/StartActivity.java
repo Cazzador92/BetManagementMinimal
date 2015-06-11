@@ -20,6 +20,12 @@ import java.util.TimeZone;
 
 public class StartActivity extends ActionBarActivity{
 
+    private final String COL_ID = "_id";
+    private final String COL_TITLE = "Title";
+    private final String COL_DESCRIPTION = "Description";
+    private final String COL_START = "Start";
+    private final String COL_END = "End";
+
     private ListView LVBets;
 
 
@@ -70,7 +76,7 @@ public class StartActivity extends ActionBarActivity{
                                           }
                                       });
 
-        //Lange Klicken = Löschen einer Wette.
+        //Lange Klicken = Loeschen einer Wette.
         LVBets.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -90,6 +96,8 @@ public class StartActivity extends ActionBarActivity{
         startActivity(intent);
     }
 
+
+    //TODO Auslagern!!!
     /**
      * Returns the BetItems out of the Database.
      * @return ArrayList<BetItem> BetList
@@ -113,11 +121,11 @@ public class StartActivity extends ActionBarActivity{
                     calStart.setTimeZone(TimeZone.getDefault());
                     calEnd.setTimeZone(TimeZone.getDefault());
 
-                    Bet.ID = cursor.getInt(cursor.getColumnIndex("_ID"));
-                    Bet.Title = cursor.getString(cursor.getColumnIndex("Title"));
-                    Bet.Description = cursor.getString(cursor.getColumnIndex("Description"));
-                    calStart.setTimeInMillis(cursor.getLong(cursor.getColumnIndex("Start")));
-                    calEnd.setTimeInMillis(cursor.getLong(cursor.getColumnIndex("End")));
+                    Bet.ID = cursor.getInt(cursor.getColumnIndex(COL_ID));
+                    Bet.Title = cursor.getString(cursor.getColumnIndex(COL_TITLE));
+                    Bet.Description = cursor.getString(cursor.getColumnIndex(COL_DESCRIPTION));
+                    calStart.setTimeInMillis(cursor.getLong(cursor.getColumnIndex(COL_START)));
+                    calEnd.setTimeInMillis(cursor.getLong(cursor.getColumnIndex(COL_END)));
 
                     BetList.add(Bet);
                 }while(cursor.moveToNext());
@@ -130,7 +138,7 @@ public class StartActivity extends ActionBarActivity{
     }
 }
 
-//TODO 1: Hinzufügen und löschen testen.
-//TODO 2: Beim lange klicken fragen ob die wette gelöscht werden soll.
-//TODO 3: Hinzufügen von "Dafür" und "Dagegen" um leute aufzuschreiben die mitmachen.
-//TODO 4: restlichen TOdos prüfen.
+//TODO 1: Hinzufuegen und loeschen testen.
+//TODO 2: Beim lange klicken fragen ob die wette geloescht werden soll.
+//TODO 3: Hinzufuegen von "Dafuer" und "Dagegen" um leute aufzuschreiben die mitmachen.
+//TODO 4: restlichen TODO's pruefen.
