@@ -1,5 +1,7 @@
 package de.rocks.jsdevelopment.betmanagement;
 
+//TODO Logs hinzufuegen
+
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;

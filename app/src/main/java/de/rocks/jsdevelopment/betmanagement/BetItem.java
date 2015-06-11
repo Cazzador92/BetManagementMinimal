@@ -1,5 +1,7 @@
 package de.rocks.jsdevelopment.betmanagement;
 
+//TODO Logs hinzufuegen
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;

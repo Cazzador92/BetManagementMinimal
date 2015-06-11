@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.Date;
 
@@ -11,6 +12,8 @@ import java.util.Date;
  * Created by Cazzador on 07.06.2015.
  */
 public class SQLiteHelper extends SQLiteOpenHelper {
+
+    final String LOG_TAG = "Wetten SQLiteHelper";
 
     private final String DB_NAME = "BetManagementDB";
 
@@ -28,6 +31,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase DB) {
+
+        Log.d(LOG_TAG, "--- onCreate start ---");
 
         ContentValues content = new ContentValues();
 
@@ -61,10 +66,12 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         DB.insert(TABLE_BETS, null, content);
 
+        Log.d(LOG_TAG, "--- onCreate ende ---");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.d(LOG_TAG, "--- onUpgrade ende ---");
         //TODO onUpgrade Methode ergaenzen sobald gebraucht wird
     }
 }

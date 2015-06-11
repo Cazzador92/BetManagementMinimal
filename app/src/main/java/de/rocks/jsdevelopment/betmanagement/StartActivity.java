@@ -3,8 +3,10 @@ package de.rocks.jsdevelopment.betmanagement;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Debug;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +22,10 @@ import java.util.TimeZone;
 
 public class StartActivity extends ActionBarActivity {
 
+    final String LOG_TAG = "Wetten StartActivity";
+
+    private final String TABLE_BETS = "bets";
+
     private final String COL_ID = "_id";
     private final String COL_TITLE = "Title";
     private final String COL_DESCRIPTION = "Description";
@@ -34,18 +40,29 @@ public class StartActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
+        Log.d(LOG_TAG, "--- onCreate start ---");
+
         FillBetList();
+
+        Log.d(LOG_TAG, "--- onCreate end ---");
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d(LOG_TAG, "--- onCreateOptionsMenu start ---");
+
         getMenuInflater().inflate(R.menu.menu_start, menu);
+
+        Log.d(LOG_TAG, "--- onCreateOptionsMenu end ---");
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.d(LOG_TAG, "--- onOptionsItemSelected start ---");
+
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -57,10 +74,14 @@ public class StartActivity extends ActionBarActivity {
             return true;
         }
 
+        Log.d(LOG_TAG, "--- onOptionsItemSelected end ---");
+
         return super.onOptionsItemSelected(item);
     }
 
     private void FillBetList() {
+        Log.d(LOG_TAG, "--- FillBetList start ---");
+
         LVBets = (ListView) findViewById(R.id.LVBets);
 
         //ArrayList<BetItem> Bets = getBetList();
@@ -87,12 +108,18 @@ public class StartActivity extends ActionBarActivity {
 
         //Adapter setzen und laden.
         LVBets.setAdapter(new BetAdapter(this, getBetList()));
+
+        Log.d(LOG_TAG, "--- FillBetList end ---");
     }
 
     private void OpenBetDetails(BetItem Bet) {
+        Log.d(LOG_TAG, "--- OpenBetDetails start ---");
+
         Intent intent = new Intent(StartActivity.this, BetDetailActivity.class);
         intent.putExtra("BetItem", Bet);
         startActivity(intent);
+
+        Log.d(LOG_TAG, "--- OpenBetDetails end ---");
     }
 
 
@@ -104,6 +131,8 @@ public class StartActivity extends ActionBarActivity {
      * @return ArrayList<BetItem> BetList
      */
     private ArrayList<BetItem> getBetList() {
+        Log.d(LOG_TAG, "--- getBetList start ---");
+
         SQLiteHelper Helper = new SQLiteHelper(this);
         SQLiteDatabase DB = Helper.getWritableDatabase();
 
@@ -112,7 +141,7 @@ public class StartActivity extends ActionBarActivity {
 
         BetItem Bet;
 
-        Cursor cursor = DB.query("Bets", null, null, null, null, null, null, null);
+        Cursor cursor = DB.query(TABLE_BETS, null, null, null, null, null, null, null);
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -137,6 +166,8 @@ public class StartActivity extends ActionBarActivity {
             }
             cursor.close();
         }
+
+        Log.d(LOG_TAG, "--- getBetList end ---");
 
         return BetList;
     }
