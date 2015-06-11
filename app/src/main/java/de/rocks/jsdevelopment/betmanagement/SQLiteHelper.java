@@ -44,13 +44,13 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 " );");
 
         content.clear();
-        content.put(COL_ID,1);
-        content.put(COL_TITLE,"ErsterTitel");
-        content.put(COL_DESCRIPTION,"ErsteBeschreibung");
-        content.put(COL_START,System.currentTimeMillis());
-        content.put(COL_END,System.currentTimeMillis() + (86400000 * 10));// jetzt + 3 tage   86400000 -> 1 Tag in Millisekunden.
+        content.put(COL_ID, 1);
+        content.put(COL_TITLE, "ErsterTitel");
+        content.put(COL_DESCRIPTION, "ErsteBeschreibung");
+        content.put(COL_START, System.currentTimeMillis());
+        content.put(COL_END, System.currentTimeMillis() + (86400000 * 10));// jetzt + 3 tage   86400000 -> 1 Tag in Millisekunden.
 
-        DB.insert(TABLE_BETS,null,content);
+        DB.insert(TABLE_BETS, null, content);
 
         content.clear();
         content.put(COL_ID, 2);
@@ -59,7 +59,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         content.put(COL_START, System.currentTimeMillis() + (86400000 * 15));
         content.put(COL_END, System.currentTimeMillis() + (86400000 * 30));
 
-        DB.insert(TABLE_BETS,null,content);
+        DB.insert(TABLE_BETS, null, content);
 
     }
 

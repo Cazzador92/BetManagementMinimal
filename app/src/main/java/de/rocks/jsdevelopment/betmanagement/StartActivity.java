@@ -18,7 +18,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class StartActivity extends ActionBarActivity{
+public class StartActivity extends ActionBarActivity {
 
     private final String COL_ID = "_id";
     private final String COL_TITLE = "Title";
@@ -51,7 +51,7 @@ public class StartActivity extends ActionBarActivity{
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_bar_bet_add){
+        if (id == R.id.action_bar_bet_add) {
             Toast.makeText(getBaseContext(), "Neue Wette erstellen", Toast.LENGTH_LONG).show();
             OpenBetDetails(new BetItem());
             return true;
@@ -60,8 +60,7 @@ public class StartActivity extends ActionBarActivity{
         return super.onOptionsItemSelected(item);
     }
 
-    private void FillBetList()
-    {
+    private void FillBetList() {
         LVBets = (ListView) findViewById(R.id.LVBets);
 
         //ArrayList<BetItem> Bets = getBetList();
@@ -69,28 +68,28 @@ public class StartActivity extends ActionBarActivity{
 
         //Kurzer Klick zum bearbeiten.
         LVBets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                          public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                              BetItem Bet = (BetItem)parent.getAdapter().getItem(position);
-                                              Toast.makeText(getBaseContext(), Bet.toString(), Toast.LENGTH_LONG).show();
-                                              OpenBetDetails(Bet);
-                                          }
-                                      });
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                BetItem Bet = (BetItem) parent.getAdapter().getItem(position);
+                Toast.makeText(getBaseContext(), Bet.toString(), Toast.LENGTH_LONG).show();
+                OpenBetDetails(Bet);
+            }
+        });
 
         //Lange Klicken = Loeschen einer Wette.
         LVBets.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                BetItem Bet = (BetItem)parent.getAdapter().getItem(position);
+                BetItem Bet = (BetItem) parent.getAdapter().getItem(position);
                 Bet.Delete(view.getContext());
                 return true;
             }
         });
 
         //Adapter setzen und laden.
-        LVBets.setAdapter(new BetAdapter(this,getBetList()));
+        LVBets.setAdapter(new BetAdapter(this, getBetList()));
     }
 
-    private void OpenBetDetails(BetItem Bet){
+    private void OpenBetDetails(BetItem Bet) {
         Intent intent = new Intent(StartActivity.this, BetDetailActivity.class);
         intent.putExtra("BetItem", Bet);
         startActivity(intent);
@@ -98,20 +97,25 @@ public class StartActivity extends ActionBarActivity{
 
 
     //TODO Auslagern!!!
+
     /**
      * Returns the BetItems out of the Database.
+     *
      * @return ArrayList<BetItem> BetList
      */
-    private ArrayList<BetItem> getBetList(){
+    private ArrayList<BetItem> getBetList() {
         SQLiteHelper Helper = new SQLiteHelper(this);
         SQLiteDatabase DB = Helper.getWritableDatabase();
-        ArrayList<BetItem> BetList = new ArrayList<BetItem>();//BetItem muss da stehen kommt sonst zur NullPointerException.
+
+        ArrayList<BetItem> BetList = new ArrayList<BetItem>();
+        //BetItem muss da stehen kommt sonst zur NullPointerException.
+
         BetItem Bet;
 
-        Cursor cursor = DB.query("Bets",null,null,null,null,null,null,null);
+        Cursor cursor = DB.query("Bets", null, null, null, null, null, null, null);
 
-        if (cursor != null){
-            if (cursor.moveToFirst()){
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
                 do {
                     Bet = new BetItem();
 
@@ -128,7 +132,7 @@ public class StartActivity extends ActionBarActivity{
                     calEnd.setTimeInMillis(cursor.getLong(cursor.getColumnIndex(COL_END)));
 
                     BetList.add(Bet);
-                }while(cursor.moveToNext());
+                } while (cursor.moveToNext());
 
             }
             cursor.close();
