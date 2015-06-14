@@ -36,9 +36,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
         ContentValues content = new ContentValues();
 
-        //TODO Später rausnehmen wenn Werte nicht fest über den code eingegeben werden.
-        // wird nie gebraucht, da onCreate nur aufgerufen wird wenn die DB neu erstellt wird
-        //DB.execSQL("DROP TABLE IF EXISTS Bets");
+        //TODO Spaeter rausnehmen wenn Werte nicht fest über den code eingegeben werden.
+        DB.execSQL("DROP TABLE IF EXISTS Bets");
 
         DB.execSQL("CREATE TABLE " + TABLE_BETS + " ( " +
                 COL_ID + " int AUTO_INCREMENT PRIMARY KEY, " +
@@ -71,8 +70,9 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.d(LOG_TAG, "--- onUpgrade ende ---");
+        Log.d(LOG_TAG, "--- onUpgrade start ---");
         //TODO onUpgrade Methode ergaenzen sobald gebraucht wird
+        Log.d(LOG_TAG, "--- onUpgrade ende ---");
     }
 }
 

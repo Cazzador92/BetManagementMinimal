@@ -1,12 +1,11 @@
 package de.rocks.jsdevelopment.betmanagement;
 
-//TODO Logs hinzufuegen
-
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +20,8 @@ import java.util.Date;
 
 public class BetDetailActivity extends Activity {
 
+    final String LOG_TAG = "Wetten BetDetailActivit";//23 Zeichen maximal.
+
     private EditText Start;
     private EditText End;
     private EditText Title;
@@ -30,6 +31,7 @@ public class BetDetailActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(LOG_TAG, "--- onCreate start ---");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_betdetail);
 
@@ -41,9 +43,12 @@ public class BetDetailActivity extends Activity {
 
         //Datepicker für Datumsfelder setzen.
         AddHandler();
+
+        Log.d(LOG_TAG, "--- onCreate end ---");
     }
 
     private void SetBetDetails() {
+        Log.d(LOG_TAG, "--- SetBetDetails start ---");
         Title = (EditText) findViewById(R.id.txtTitle);
         Start = (EditText) findViewById(R.id.txtStartDate);
         End = (EditText) findViewById(R.id.txtEndDate);
@@ -54,12 +59,16 @@ public class BetDetailActivity extends Activity {
         Start.setText(Bet.getStart());
         End.setText(Bet.getEnd());
         Description.setText(Bet.Description);
+
+        Log.d(LOG_TAG, "--- SetBetDetails end ---");
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.d(LOG_TAG, "--- onCreateOptionsMenu start ---");
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_bet, menu);
+        Log.d(LOG_TAG, "--- onCreateOptionsMenu end ---");
         return true;
     }
 /*
@@ -80,7 +89,7 @@ public class BetDetailActivity extends Activity {
     */
 
     public void AddHandler() {
-
+        Log.d(LOG_TAG, "--- AddHandler start ---");
         Start.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
             @Override
@@ -119,5 +128,7 @@ public class BetDetailActivity extends Activity {
                 Bet.Save(v.getContext());
             }
         });
+
+        Log.d(LOG_TAG, "--- AddHandler start ---");
     }
 }
