@@ -49,11 +49,6 @@ public class BetItem implements Serializable {
         Log.d(LOG_TAG, "--- BetItem mit Parametern end ---");
     }
 
-    //@Override //vllt unnötig.
-    /*public String toString() {
-        return this.ID + ". " + this.Title;
-    }*/
-
     public String getPeriod() {
         Log.d(LOG_TAG, "--- getPeriod start - end ---");
         return this.getStart() + " - " + this.getEnd();
@@ -107,7 +102,6 @@ public class BetItem implements Serializable {
 
         content.clear();
 
-        //content.put("_ID",2);
         content.put("Title", Title);
         content.put("Description", Description);
         content.put("Start", Start.getTimeInMillis());

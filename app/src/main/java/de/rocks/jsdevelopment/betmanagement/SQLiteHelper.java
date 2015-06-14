@@ -52,7 +52,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         content.put(COL_TITLE, "ErsterTitel");
         content.put(COL_DESCRIPTION, "ErsteBeschreibung");
         content.put(COL_START, System.currentTimeMillis());
-        content.put(COL_END, System.currentTimeMillis() + (86400000 * 10));// jetzt + 3 tage   86400000 -> 1 Tag in Millisekunden.
+        content.put(COL_END, System.currentTimeMillis() + (86400000 * 10));//86400000 -> 1 Tag in Millisekunden.
 
         DB.insert(TABLE_BETS, null, content);
 

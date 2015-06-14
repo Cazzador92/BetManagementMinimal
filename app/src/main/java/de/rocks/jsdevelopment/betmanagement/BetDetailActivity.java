@@ -126,6 +126,7 @@ public class BetDetailActivity extends Activity {
                 Bet.Description = Description.getText().toString();
 
                 Bet.Save(v.getContext());
+                //finishActivity(0);
             }
         });
 

@@ -15,11 +15,11 @@ import java.util.ArrayList;
  * Created by Cazzador on 06.06.2015.
  * Adapter for one Bet
  */
-public class BetAdapter extends ArrayAdapter<BetItem> {
+public class BetListAdapter extends ArrayAdapter<BetItem> {
 
-    final String LOG_TAG = "Wetten BetAdapter";
+    private final String LOG_TAG = "Wetten BetAdapter";
 
-    public BetAdapter(Context context, ArrayList<BetItem> bets) {
+    public BetListAdapter(Context context, ArrayList<BetItem> bets) {
         super(context, 0, bets);
         Log.d(LOG_TAG, "--- BetAdapter start - end ---");
     }
