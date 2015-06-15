@@ -108,4 +108,3 @@ public class StartActivity extends ActionBarActivity implements AdapterView.OnIt
 }
 
 //TODO 1: Hinzufuegen von "Dafuer" und "Dagegen" um leute aufzuschreiben die mitmachen.
-//TODO 2: restlichen TODO's pruefen.
