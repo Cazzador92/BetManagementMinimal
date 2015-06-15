@@ -11,7 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class StartActivity extends ActionBarActivity implements AdapterView.OnItemLongClickListener{
+public class StartActivity extends ActionBarActivity implements AdapterView.OnItemLongClickListener,AdapterView.OnItemClickListener{
 
     final String LOG_TAG = "Wetten StartActivity";
 
@@ -70,25 +70,8 @@ public class StartActivity extends ActionBarActivity implements AdapterView.OnIt
         mLVBets = (ListView) findViewById(R.id.LVBets);
 
         //Klick zum bearbeiten.
-        mLVBets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                BetItem Bet = (BetItem) parent.getAdapter().getItem(position);
-                Toast.makeText(getBaseContext(), Bet.toString(), Toast.LENGTH_LONG).show();
-                OpenBetDetails(Bet);
-            }
-        });
 
-        //Lange Klicken zum loeschen
-       /* mLVBets.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                BetItem Bet = (BetItem) parent.getAdapter().getItem(position);
-                Toast.makeText(getBaseContext(), Bet.toString(), Toast.LENGTH_LONG).show();
-                Bet.Delete(view.getContext());
-                return true;
-            }
-        });
-*/
+        mLVBets.setOnItemClickListener(this);
         mLVBets.setOnItemLongClickListener(this);
         //Adapter setzen und laden.
         mLVBets.setAdapter(new BetListAdapter(this,mBetList.getBetList()));
@@ -106,16 +89,22 @@ public class StartActivity extends ActionBarActivity implements AdapterView.OnIt
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-        BetItem Bet = mBetList.getBetItem(position);
+        Log.d(LOG_TAG,"--- onItemLongClick start ---");
         mBetList.remove(position);
-                //Toast.makeText(getBaseContext(), Bet.toString(), Toast.LENGTH_LONG).show();
-        Bet.Delete(view.getContext());
-        mLVBets.setAdapter(new BetListAdapter(this,mBetList.getBetList()));
+        mLVBets.setAdapter(new BetListAdapter(this, mBetList.getBetList()));
+        Log.d(LOG_TAG, "--- onItemLongClick end ---");
         return true;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Log.d(LOG_TAG, "--- onItemClick start ---");
+        BetItem Bet = (BetItem) parent.getAdapter().getItem(position);
+        Toast.makeText(getBaseContext(), Bet.toString(), Toast.LENGTH_LONG).show();
+        OpenBetDetails(Bet);
+        Log.d(LOG_TAG, "--- onItemClick end ---");
     }
 }
 
-//TODO 1: Hinzufuegen und loeschen testen.
-//TODO 2: Beim lange klicken fragen ob die wette geloescht werden soll.
 //TODO 3: Hinzufuegen von "Dafuer" und "Dagegen" um leute aufzuschreiben die mitmachen.
 //TODO 4: restlichen TODO's pruefen.

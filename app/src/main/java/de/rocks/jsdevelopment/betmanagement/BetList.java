@@ -25,6 +25,7 @@ public class BetList {
     private final String COL_DESCRIPTION = "Description";
     private final String COL_START = "Start";
     private final String COL_END = "End";
+    private Context mcontext;
 
     private List<BetItem> mBetList;
 
@@ -35,9 +36,10 @@ public class BetList {
 
     public void Load(Context context)
     {
-        BetItem Bet;
-
         Log.d(LOG_TAG, "--- Load start ---");
+        BetItem Bet;
+        mcontext = context;
+
         SQLiteHelper Helper = new SQLiteHelper(context);
         SQLiteDatabase DB = Helper.getWritableDatabase();
 
@@ -84,6 +86,7 @@ public class BetList {
     }
 
     public void remove(int position){
+        mBetList.get(position).Delete(mcontext);
         mBetList.remove(position);
     }
 }
