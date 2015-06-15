@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
@@ -86,15 +87,15 @@ public class BetItem implements Serializable {
         DB = DBHelper.getWritableDatabase();
 
         if (ID == 0) {
-            Create();
+            Create(context);
         } else {
-            Update();
+            Update(context);
         }
 
         Log.d(LOG_TAG, "--- Save end ---");
     }
 
-    private void Create() {
+    private void Create(Context context) {
 
         Log.d(LOG_TAG,"--- Create start ---");
 
@@ -114,13 +115,14 @@ public class BetItem implements Serializable {
             DB.insert("Bets", null, content);
 
             DB.setTransactionSuccessful();
+            Toast.makeText(context,R.string.value_create, Toast.LENGTH_LONG).show();
         } finally {
             DB.endTransaction();
         }
         Log.d(LOG_TAG,"--- Create end ---");
     }
 
-    private void Update() {
+    private void Update(Context context) {
         Log.d(LOG_TAG,"--- Update start ---");
 
         ContentValues content = new ContentValues();
@@ -139,6 +141,7 @@ public class BetItem implements Serializable {
             DB.update("Bets", content, "_ID = ?",
                     new String[]{String.valueOf(ID)});
             DB.setTransactionSuccessful();
+            Toast.makeText(context,R.string.value_update, Toast.LENGTH_LONG).show();
         } finally {
             DB.endTransaction();
         }
@@ -155,6 +158,7 @@ public class BetItem implements Serializable {
             DB.delete("Bets", "_ID = ?",
                     new String[]{String.valueOf(ID)});
             DB.setTransactionSuccessful();
+            Toast.makeText(context,R.string.value_delete, Toast.LENGTH_LONG).show();
         } finally {
             DB.endTransaction();
         }

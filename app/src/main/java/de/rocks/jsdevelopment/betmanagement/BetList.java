@@ -12,7 +12,7 @@ import java.util.TimeZone;
 
 /**
  * Created by Sebastian on 14.06.2015.
- * Verwaltung für die Wettliste
+ * Verwaltung fuer die Wettliste
  */
 public class BetList {
 
@@ -88,5 +88,13 @@ public class BetList {
     public void remove(int position){
         mBetList.get(position).Delete(mcontext);
         mBetList.remove(position);
+    }
+
+    public void add(BetItem Bet){
+        mBetList.add(Bet);
+    }
+
+    public int Count(){
+        return mBetList.size();
     }
 }

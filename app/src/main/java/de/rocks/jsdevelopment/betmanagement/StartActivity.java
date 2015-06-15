@@ -26,7 +26,7 @@ public class StartActivity extends ActionBarActivity implements AdapterView.OnIt
 
         Log.d(LOG_TAG, "--- onCreate start ---");
         FillBetList();
-       Log.d(LOG_TAG, "--- onCreate end ---");
+        Log.d(LOG_TAG, "--- onCreate end ---");
     }
 
     @Override
@@ -54,7 +54,8 @@ public class StartActivity extends ActionBarActivity implements AdapterView.OnIt
 
         if (id == R.id.action_bar_bet_add) {
             Toast.makeText(getBaseContext(), "Neue Wette erstellen", Toast.LENGTH_LONG).show();
-            OpenBetDetails(new BetItem()); //TODO Details für neue Wette anzeigen
+            mBetList.add(new BetItem());
+            OpenBetDetails(mBetList.getBetItem(mBetList.Count()));
             return true;
         }
 
@@ -99,9 +100,8 @@ public class StartActivity extends ActionBarActivity implements AdapterView.OnIt
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Log.d(LOG_TAG, "--- onItemClick start ---");
-        BetItem Bet = (BetItem) parent.getAdapter().getItem(position);
-        Toast.makeText(getBaseContext(), Bet.toString(), Toast.LENGTH_LONG).show();
-        OpenBetDetails(Bet);
+        Toast.makeText(getBaseContext(), mBetList.getBetItem(position).toString(), Toast.LENGTH_LONG).show();
+        OpenBetDetails(mBetList.getBetItem(position));
         Log.d(LOG_TAG, "--- onItemClick end ---");
     }
 }
