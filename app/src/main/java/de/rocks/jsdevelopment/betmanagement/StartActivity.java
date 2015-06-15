@@ -70,10 +70,10 @@ public class StartActivity extends ActionBarActivity implements AdapterView.OnIt
         mBetList = new BetList(this);
         mLVBets = (ListView) findViewById(R.id.LVBets);
 
-        //Klick zum bearbeiten.
-
+        //Handler setzen.
         mLVBets.setOnItemClickListener(this);
         mLVBets.setOnItemLongClickListener(this);
+
         //Adapter setzen und laden.
         mLVBets.setAdapter(new BetListAdapter(this,mBetList.getBetList()));
 
