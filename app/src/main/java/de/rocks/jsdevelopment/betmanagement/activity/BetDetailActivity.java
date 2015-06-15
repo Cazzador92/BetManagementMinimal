@@ -145,12 +145,6 @@ public class BetDetailActivity extends Activity {
         if (requestCode == PICK_CONTACT_REQUEST) {
             if (resultCode == RESULT_OK) {
 
-//                Uri personUri = ContentUris.withAppendedId(Contacts.People.CONTENT_URI, personId);
-//                Uri phonesUri = Uri.withAppendedPath(personUri, Contacts.People.Phones.CONTENT_DIRECTORY);
-//                String[] proj = new String[] {Contacts.Phones._ID, Contacts.Phones.TYPE, Contacts.Phones.NUMBER, Contacts.Phones.LABEL}
-//                Cursor cursor = contentResolver.query(phonesUri, proj, null, null, null);
-
-
                 //TODO UI (add, edit, ...) fuer Kontakte
                 //TODO Die ausgewaehlte Kontakte auch speichern
                 //TODO genauso für die die dagegen sind
