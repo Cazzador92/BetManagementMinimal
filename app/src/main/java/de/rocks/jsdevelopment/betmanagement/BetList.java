@@ -50,17 +50,11 @@ public class BetList {
                 do {
                     Bet = new BetItem();
 
-                    Calendar calStart = Calendar.getInstance();
-                    Calendar calEnd = Calendar.getInstance();
-
-                    calStart.setTimeZone(TimeZone.getDefault());
-                    calEnd.setTimeZone(TimeZone.getDefault());
-
                     Bet.ID = cursor.getInt(cursor.getColumnIndex(COL_ID));
                     Bet.Title = cursor.getString(cursor.getColumnIndex(COL_TITLE));
                     Bet.Description = cursor.getString(cursor.getColumnIndex(COL_DESCRIPTION));
-                    calStart.setTimeInMillis(cursor.getLong(cursor.getColumnIndex(COL_START)));
-                    calEnd.setTimeInMillis(cursor.getLong(cursor.getColumnIndex(COL_END)));
+                    Bet.Start.setTimeInMillis(cursor.getLong(cursor.getColumnIndex(COL_START)));
+                    Bet.End.setTimeInMillis(cursor.getLong(cursor.getColumnIndex(COL_END)));
 
                     mBetList.add(Bet);
 

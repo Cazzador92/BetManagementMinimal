@@ -10,6 +10,7 @@ import java.util.Date;
 
 /**
  * Created by Cazzador on 07.06.2015.
+ * Basic Database Class
  */
 public class SQLiteHelper extends SQLiteOpenHelper {
 
@@ -43,8 +44,8 @@ public class SQLiteHelper extends SQLiteOpenHelper {
                 COL_ID + " INTEGER PRIMARY KEY, " +
                 COL_TITLE + " Text NULL, " +
                 COL_DESCRIPTION + " Text NULL, " +
-                COL_START + " Long NULL, " + //Datum in Millisekunden (Long) speichern -> Einfacher + von Date & Calendar unterstützt.
-                COL_END + " Long NULL " +
+                COL_START + " UNSIGNED bigint NULL, " + //Datum in Millisekunden (Long) speichern -> Einfacher + von Date & Calendar unterstützt.
+                COL_END + " UNSIGNED bigint NULL " +
                 " );");
 
         content.clear();

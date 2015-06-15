@@ -22,9 +22,8 @@ public class StartActivity extends ActionBarActivity implements AdapterView.OnIt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start);
-
         Log.d(LOG_TAG, "--- onCreate start ---");
+        setContentView(R.layout.activity_start);
         FillBetList();
         Log.d(LOG_TAG, "--- onCreate end ---");
     }
@@ -32,7 +31,9 @@ public class StartActivity extends ActionBarActivity implements AdapterView.OnIt
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(LOG_TAG, "--- onResume start ---");
         FillBetList();
+        Log.d(LOG_TAG, "--- onResume end ---");
     }
 
     @Override
@@ -106,6 +107,5 @@ public class StartActivity extends ActionBarActivity implements AdapterView.OnIt
     }
 }
 
-//TODO 2: Datum in Milliseconds wird nicht richtig verarbeitet, es steht immer der aktuelle tag da.
-//TODO 3: Hinzufuegen von "Dafuer" und "Dagegen" um leute aufzuschreiben die mitmachen.
-//TODO 4: restlichen TODO's pruefen.
+//TODO 1: Hinzufuegen von "Dafuer" und "Dagegen" um leute aufzuschreiben die mitmachen.
+//TODO 2: restlichen TODO's pruefen.

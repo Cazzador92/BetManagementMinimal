@@ -106,7 +106,7 @@ public class BetItem implements Serializable {
         content.put("Title", Title);
         content.put("Description", Description);
         content.put("Start", Start.getTimeInMillis());
-        content.put("End", End.getTimeInMillis());
+        content.put("End", End.getTimeInMillis());//End.getTimeInMillis()
 
         DB.beginTransaction();
 
@@ -129,7 +129,6 @@ public class BetItem implements Serializable {
 
         content.clear();
 
-        //content.put("_ID",2);
         content.put("Title", Title);
         content.put("Description", Description);
         content.put("Start", Start.getTimeInMillis());

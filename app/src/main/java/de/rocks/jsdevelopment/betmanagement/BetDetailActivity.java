@@ -95,7 +95,7 @@ public class BetDetailActivity extends Activity {
                 if (hasFocus) {
                     DialogFragment DF = new DatePicker(R.id.txtEndDate);
                     DF.show(getFragmentManager(), "OpenDatePicker");
-                    Bet.Start = ((DatePicker) DF).getCalendar();
+                    Bet.End = ((DatePicker) DF).getCalendar();
 
                     End.setText("");
                 }
