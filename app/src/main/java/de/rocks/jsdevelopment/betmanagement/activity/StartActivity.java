@@ -1,4 +1,4 @@
-package de.rocks.jsdevelopment.betmanagement;
+package de.rocks.jsdevelopment.betmanagement.activity;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -10,6 +10,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import de.rocks.jsdevelopment.betmanagement.model.BetItem;
+import de.rocks.jsdevelopment.betmanagement.model.BetList;
+import de.rocks.jsdevelopment.betmanagement.adapter.BetListAdapter;
+import de.rocks.jsdevelopment.betmanagement.R;
 
 public class StartActivity extends ActionBarActivity implements AdapterView.OnItemLongClickListener,AdapterView.OnItemClickListener{
 

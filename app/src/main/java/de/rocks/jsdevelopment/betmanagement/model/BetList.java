@@ -1,4 +1,4 @@
-package de.rocks.jsdevelopment.betmanagement;
+package de.rocks.jsdevelopment.betmanagement.model;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -6,9 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-import java.util.TimeZone;
+
+import de.rocks.jsdevelopment.betmanagement.helper.SQLiteHelper;
 
 /**
  * Created by Sebastian on 14.06.2015.

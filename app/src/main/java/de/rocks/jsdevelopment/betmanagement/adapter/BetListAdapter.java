@@ -1,4 +1,4 @@
-package de.rocks.jsdevelopment.betmanagement;
+package de.rocks.jsdevelopment.betmanagement.adapter;
 
 
 import android.content.Context;
@@ -10,6 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import de.rocks.jsdevelopment.betmanagement.R;
+import de.rocks.jsdevelopment.betmanagement.model.BetItem;
 
 /**
  * Created by Cazzador on 06.06.2015.

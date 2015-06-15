@@ -1,8 +1,10 @@
-package de.rocks.jsdevelopment.betmanagement;
+package de.rocks.jsdevelopment.betmanagement.helper;
 
+import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
@@ -14,6 +16,7 @@ import java.util.Calendar;
  * Created by Cazzador on 24.01.2015.
  * Class for a DatePickerobject.
  */
+@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class DatePicker extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     private final String LOG_TAG = "Wetten DatePicker";

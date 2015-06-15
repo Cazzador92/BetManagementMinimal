@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="de.rocks.jsdevelopment.betmanagement.BetDetailActivity">
+    tools:context="de.rocks.jsdevelopment.betmanagement.activity.BetDetailActivity">
 
     <com.wrapp.floatlabelededittext.FloatLabeledEditText
         android:layout_width="match_parent"
@@ -56,22 +56,47 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Beschreibung" />
-        <!--
-                    <ListView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Dafür"
-                        android:id="@+id/lvForBet"/>
 
 
-                    <ListView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Dagegen"
-                        android:id="@+id/lvAgainstBet"/>
-        -->
     </com.wrapp.floatlabelededittext.FloatLabeledEditText>
 
+    <!--
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Dafür"
+        android:id="@+id/lvForBet"/>
+
+
+                        <ListView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Dagegen"
+                            android:id="@+id/lvAgainstBet"/>
+            -->
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/textViewForBet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.9"
+            android:maxLines="10"
+            android:text="New Text" />
+
+        <Button
+            android:id="@+id/buttonEditForBet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:text="Edit" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/txtSave"

@@ -1,8 +1,7 @@
-package de.rocks.jsdevelopment.betmanagement;
+package de.rocks.jsdevelopment.betmanagement.model;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.widget.Toast;
@@ -10,7 +9,9 @@ import android.widget.Toast;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+
+import de.rocks.jsdevelopment.betmanagement.R;
+import de.rocks.jsdevelopment.betmanagement.helper.SQLiteHelper;
 
 /**
  * Created by Cazzador on 04.06.2015.
@@ -115,7 +116,7 @@ public class BetItem implements Serializable {
             DB.insert("Bets", null, content);
 
             DB.setTransactionSuccessful();
-            Toast.makeText(context,R.string.value_create, Toast.LENGTH_LONG).show();
+            Toast.makeText(context, R.string.value_create, Toast.LENGTH_LONG).show();
         } finally {
             DB.endTransaction();
         }

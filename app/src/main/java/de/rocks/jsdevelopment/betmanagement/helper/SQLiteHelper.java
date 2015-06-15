@@ -1,4 +1,4 @@
-package de.rocks.jsdevelopment.betmanagement;
+package de.rocks.jsdevelopment.betmanagement.helper;
 
 import android.content.ContentValues;
 import android.content.Context;
