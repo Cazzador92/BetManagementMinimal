@@ -40,7 +40,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         DB.execSQL("DROP TABLE IF EXISTS Bets");
 
         DB.execSQL("CREATE TABLE " + TABLE_BETS + " ( " +
-                COL_ID + " int AUTO_INCREMENT PRIMARY KEY, " +
+                COL_ID + " INTEGER PRIMARY KEY, " +
                 COL_TITLE + " Text NULL, " +
                 COL_DESCRIPTION + " Text NULL, " +
                 COL_START + " Long NULL, " + //Datum in Millisekunden (Long) speichern -> Einfacher + von Date & Calendar unterstützt.

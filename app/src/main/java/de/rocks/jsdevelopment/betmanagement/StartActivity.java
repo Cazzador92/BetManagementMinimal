@@ -55,7 +55,7 @@ public class StartActivity extends ActionBarActivity implements AdapterView.OnIt
         if (id == R.id.action_bar_bet_add) {
             Toast.makeText(getBaseContext(), "Neue Wette erstellen", Toast.LENGTH_LONG).show();
             mBetList.add(new BetItem());
-            OpenBetDetails(mBetList.getBetItem(mBetList.Count()));
+            OpenBetDetails(mBetList.getBetItem(mBetList.Count()-1));
             return true;
         }
 
@@ -106,5 +106,6 @@ public class StartActivity extends ActionBarActivity implements AdapterView.OnIt
     }
 }
 
+//TODO 2: Datum in Milliseconds wird nicht richtig verarbeitet, es steht immer der aktuelle tag da.
 //TODO 3: Hinzufuegen von "Dafuer" und "Dagegen" um leute aufzuschreiben die mitmachen.
 //TODO 4: restlichen TODO's pruefen.
