@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Menu;
@@ -17,6 +18,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import java.util.Calendar;
 
 import de.rocks.jsdevelopment.betmanagement.model.BetItem;
 import de.rocks.jsdevelopment.betmanagement.helper.DatePicker;
@@ -121,6 +124,19 @@ public class BetDetailActivity extends Activity {
                 Bet.Description = etDescription.getText().toString();
 
                 Bet.Save(v.getContext());
+
+                //TODO anpassen um Termine direct zu erstellen
+
+                Intent intent = new Intent(Intent.ACTION_INSERT)
+                        .setData(CalendarContract.Events.CONTENT_URI)
+                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, Bet.getCalendarEnd())
+                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, Bet.getCalendarEnd())
+                        .putExtra(CalendarContract.Events.TITLE, Bet.getTitle())
+                        .putExtra(CalendarContract.Events.DESCRIPTION, Bet.getDescription())
+                        .putExtra(CalendarContract.Events.EVENT_LOCATION, "")
+                        .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
+                startActivity(intent);
+
                 finish();//Returns back to main activity.
             }
         });

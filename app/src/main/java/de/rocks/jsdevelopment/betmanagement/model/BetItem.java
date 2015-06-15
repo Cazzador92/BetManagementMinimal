@@ -51,9 +51,28 @@ public class BetItem implements Serializable {
         Log.d(LOG_TAG, "--- BetItem mit Parametern end ---");
     }
 
+    public String getTitle() {
+
+        return Title;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
     public String getPeriod() {
         Log.d(LOG_TAG, "--- getPeriod start - end ---");
         return this.getStart() + " - " + this.getEnd();
+    }
+
+    public Calendar getCalendarStart() {
+        Log.d(LOG_TAG, "--- getCalendarStart start - end ---");
+        return Start;
+    }
+
+    public Calendar getCalendarEnd() {
+        Log.d(LOG_TAG, "--- getCalendarEnd start - end ---");
+        return End;
     }
 
     public String getStart()
