@@ -30,15 +30,14 @@ import de.rocks.jsdevelopment.betmanagement.R;
 
 public class BetDetailActivity extends Activity {
 
-    static final int PICK_CONTACT_REQUEST = 1;
-    final String LOG_TAG = "Wetten BetDetailActivit";//23 Zeichen maximal.
-    private EditText etStart;
-    private EditText etEnd;
-    private EditText etTitle;
-    private EditText etDescription;
+    private static final int PICK_CONTACT_REQUEST_FOR = 1;
+    private static final int PICK_CONTACT_REQUEST_AGAINST = 2;
+    private static final String LOG_TAG = "Wetten BetDetailActivit";//23 Zeichen maximal.
+
+    private EditText etStart, etEnd, etTitle, etDescription;
     private BetItem Bet;
-    private Button bSaveBet, bEditForBet;
-    private TextView tvForBet;
+    private Button bSaveBet, bEditForBet, bEditAgainstBet;
+    private TextView tvForBet, tvAgainstBet;
 
 
     @Override
@@ -68,6 +67,8 @@ public class BetDetailActivity extends Activity {
         bSaveBet = (Button) findViewById(R.id.txtSave);
         bEditForBet = (Button) findViewById(R.id.buttonEditForBet);
         tvForBet = (TextView) findViewById(R.id.textViewForBet);
+        bEditAgainstBet = (Button) findViewById(R.id.buttonEditAgainstBet);
+        tvAgainstBet = (TextView) findViewById(R.id.textViewAgainstBet);
 
         etTitle.setText(Bet.Title);
         etStart.setText(Bet.getStart());
@@ -130,6 +131,9 @@ public class BetDetailActivity extends Activity {
 
                 Bet.Save(v.getContext());
 
+                //TODO save people
+                //TODO save calendar-entry data (id), we need this to update later
+                //TODO delete update calendar entries if changed
 
                 //TODO am anfang Kalender-Daten in der DB speichern
                 //TODO als locale Variable setzen, damit nicht jedes mal abgefragt wird
@@ -211,7 +215,18 @@ public class BetDetailActivity extends Activity {
 
                 Intent pickContactIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
 
-                startActivityForResult(pickContactIntent, PICK_CONTACT_REQUEST);
+                startActivityForResult(pickContactIntent, PICK_CONTACT_REQUEST_FOR);
+
+            }
+        });
+
+        bEditAgainstBet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent pickContactIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+
+                startActivityForResult(pickContactIntent, PICK_CONTACT_REQUEST_AGAINST);
 
             }
         });
@@ -222,7 +237,7 @@ public class BetDetailActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(LOG_TAG, "--- onActivityResult start ---");
 
-        if (requestCode == PICK_CONTACT_REQUEST) {
+        if (requestCode == PICK_CONTACT_REQUEST_FOR || requestCode == PICK_CONTACT_REQUEST_AGAINST) {
             if (resultCode == RESULT_OK) {
 
                 //TODO UI (add, edit, ...) fuer Kontakte
@@ -289,7 +304,14 @@ public class BetDetailActivity extends Activity {
 //                }
 //
                     if (cursor.moveToFirst()) {
-                        tvForBet.setText(cursor.getString(indexName));
+                        switch (requestCode) {
+                            case PICK_CONTACT_REQUEST_FOR:
+                                tvForBet.setText(cursor.getString(indexName));
+                                break;
+                            case PICK_CONTACT_REQUEST_AGAINST:
+                                tvAgainstBet.setText(cursor.getString(indexName));
+                                break;
+                        }
                     }
 
                 } catch (Exception e) {

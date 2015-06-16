@@ -19,7 +19,6 @@ import java.util.Date;
  * Created by Cazzador on 24.01.2015.
  * Class for a DatePickerobject.
  */
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class DatePicker extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     private static final String ARG_YEAR = "Year";
