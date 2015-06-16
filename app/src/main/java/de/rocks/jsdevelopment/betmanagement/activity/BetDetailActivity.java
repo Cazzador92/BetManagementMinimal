@@ -3,6 +3,9 @@ package de.rocks.jsdevelopment.betmanagement.activity;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.DialogFragment;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -19,7 +22,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 import de.rocks.jsdevelopment.betmanagement.model.BetItem;
 import de.rocks.jsdevelopment.betmanagement.helper.DatePicker;
@@ -125,17 +131,76 @@ public class BetDetailActivity extends Activity {
 
                 Bet.Save(v.getContext());
 
-                //TODO anpassen um Termine direct zu erstellen
 
-                Intent intent = new Intent(Intent.ACTION_INSERT)
-                        .setData(CalendarContract.Events.CONTENT_URI)
-                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, Bet.getCalendarEnd())
-                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, Bet.getCalendarEnd())
-                        .putExtra(CalendarContract.Events.TITLE, Bet.getTitle())
-                        .putExtra(CalendarContract.Events.DESCRIPTION, Bet.getDescription())
-                        .putExtra(CalendarContract.Events.EVENT_LOCATION, "")
-                        .putExtra(CalendarContract.Events.AVAILABILITY, CalendarContract.Events.AVAILABILITY_BUSY);
-                startActivity(intent);
+                //TODO am anfang Kalender-Daten in der DB speichern
+                //TODO als locale Variable setzen, damit nicht jedes mal abgefragt wird
+
+                //TODO spaeter ueber Einstellungen Kallender auswaehlen koennen
+
+                //load Calendar ID + Name
+                Uri eventsUri, remainderUri;
+                Cursor cursor;
+
+                eventsUri = Uri.parse("content://com.android.calendar/events");
+                remainderUri = Uri
+                        .parse("content://com.android.calendar/reminders");
+
+                Context mContext = getBaseContext();
+                ContentResolver mContentResolver = mContext.getContentResolver();
+
+                cursor = mContentResolver.query(
+                        Uri.parse("content://com.android.calendar/calendars"),
+                        new String[]{"_id", "calendar_displayName"}, null, null,
+                        null);
+
+                //store calendar id + name in variables
+                Log.e("count", "" + cursor.getColumnName(0));
+                String[] calendarNames = new String[cursor.getCount()];
+                String[] calendarId = new String[cursor.getCount()];
+                cursor.moveToFirst();
+                for (int i = 0; i < calendarNames.length; i++) {
+                    calendarId[i] = cursor.getString(0);
+                    calendarNames[i] = cursor.getString(1);
+                    cursor.moveToNext();
+
+                }
+
+                //create event
+                long startCalTime;
+                long endCalTime;
+
+                TimeZone timeZone = TimeZone.getDefault();
+
+                startCalTime = Bet.getCalendarEnd().getTimeInMillis();
+                endCalTime = Bet.getCalendarEnd().getTimeInMillis();
+
+                ContentValues event = new ContentValues();
+                event.put(CalendarContract.Events.CALENDAR_ID, calendarId[0]);
+                event.put(CalendarContract.Events.TITLE, Bet.getTitle());
+                event.put(CalendarContract.Events.DESCRIPTION, Bet.getDescription());
+                event.put(CalendarContract.Events.EVENT_LOCATION, "");
+                event.put(CalendarContract.Events.DTSTART, startCalTime);
+                event.put(CalendarContract.Events.DTEND, endCalTime);
+                event.put(CalendarContract.Events.STATUS, 1);                       // 0 for tentative, 1 for confirmed, 2 for canceled
+                event.put(CalendarContract.Events.HAS_ALARM, 1);
+                event.put(CalendarContract.Events.EVENT_TIMEZONE, timeZone.getID());
+
+                //TODO Die timeZone pruefen
+                //TODO alle Wetten mit 12:00 H abspeichern
+                //TODO spaeter zusaetzlich moeglichkeit hinzufuegen die Uhrzeit zu setzen
+
+                //save event
+                Uri insertEventUri = mContentResolver.insert(eventsUri, event);
+
+                //create reminder
+                ContentValues reminders = new ContentValues();
+                reminders.put(CalendarContract.Reminders.EVENT_ID,
+                        Long.parseLong(insertEventUri.getLastPathSegment()));
+                reminders.put(CalendarContract.Reminders.METHOD, CalendarContract.Reminders.METHOD_ALERT);
+                reminders.put(CalendarContract.Reminders.MINUTES, 10);
+
+                //save reminder
+                mContentResolver.insert(remainderUri, reminders);
 
                 finish();//Returns back to main activity.
             }
