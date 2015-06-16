@@ -19,16 +19,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 
 import de.rocks.jsdevelopment.betmanagement.model.BetItem;
-import de.rocks.jsdevelopment.betmanagement.helper.DatePicker;
+import de.rocks.jsdevelopment.betmanagement.fragment.DatePicker;
 import de.rocks.jsdevelopment.betmanagement.R;
 
 
@@ -98,11 +94,12 @@ public class BetDetailActivity extends Activity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    DialogFragment DF = new DatePicker(R.id.txtStartDate);
-                    DF.show(getFragmentManager(), "OpenDatePicker");//
-                    Bet.Start = ((DatePicker) DF).getCalendar();
+                    DialogFragment datePicker = DatePicker.newInstance(R.id.txtStartDate);
+                    datePicker.show(getFragmentManager(), "OpenDatePicker");//
 
-                    etStart.setText("");
+                    Bet.Start = ((DatePicker) datePicker).getCalendar();
+
+                    etStart.selectAll();
                 }
             }
         });
@@ -113,11 +110,13 @@ public class BetDetailActivity extends Activity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    DialogFragment DF = new DatePicker(R.id.txtEndDate);
-                    DF.show(getFragmentManager(), "OpenDatePicker");
-                    Bet.End = ((DatePicker) DF).getCalendar();
+                    DialogFragment datePicker = DatePicker.newInstance(R.id.txtEndDate);
+                    datePicker.show(getFragmentManager(), "OpenDatePicker");
 
-                    etEnd.setText("");
+                    //TODO unschoen besser ist es mit getter setter
+                    Bet.End = ((DatePicker) datePicker).getCalendar();
+
+                    etEnd.selectAll();
                 }
             }
         });
