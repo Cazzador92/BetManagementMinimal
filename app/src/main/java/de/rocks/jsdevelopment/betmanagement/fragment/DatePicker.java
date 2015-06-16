@@ -1,10 +1,8 @@
 package de.rocks.jsdevelopment.betmanagement.fragment;
 
-import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;

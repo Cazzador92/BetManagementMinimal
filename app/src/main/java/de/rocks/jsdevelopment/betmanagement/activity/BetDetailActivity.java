@@ -1,6 +1,5 @@
 package de.rocks.jsdevelopment.betmanagement.activity;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.ContentResolver;
@@ -91,7 +90,6 @@ public class BetDetailActivity extends Activity {
         Log.d(LOG_TAG, "--- AddHandler start ---");
         etStart.setOnFocusChangeListener(new View.OnFocusChangeListener() {
 
-            @TargetApi(Build.VERSION_CODES.HONEYCOMB)
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -106,8 +104,7 @@ public class BetDetailActivity extends Activity {
         });
 
         etEnd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-            @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+            
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
