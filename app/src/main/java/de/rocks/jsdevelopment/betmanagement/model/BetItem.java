@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 import de.rocks.jsdevelopment.betmanagement.R;
@@ -21,11 +22,15 @@ public class BetItem implements Serializable {
 
     private final String LOG_TAG = "Wetten BetItem";
 
+    //TODO protected + setter
     public Integer ID;
     public String Title;
     public String Description;
     public Calendar Start;
     public Calendar End;
+    protected ArrayList<Contact> mPeoplesFor, mPeoplesAgainst;
+
+    //TODO Auslagern!!!
     private SQLiteHelper DBHelper;
     private SQLiteDatabase DB;
 
@@ -48,20 +53,22 @@ public class BetItem implements Serializable {
         this.Description = Description;
         this.Start = Start;
         this.End = End;
+
         Log.d(LOG_TAG, "--- BetItem mit Parametern end ---");
     }
 
     public String getTitle() {
-
+        Log.d(LOG_TAG, "--- getTitle ---");
         return Title;
     }
 
     public String getDescription() {
+        Log.d(LOG_TAG, "--- getDescription ---");
         return Description;
     }
 
     public String getPeriod() {
-        Log.d(LOG_TAG, "--- getPeriod start - end ---");
+        Log.d(LOG_TAG, "--- getPeriod ---");
         return this.getStart() + " - " + this.getEnd();
     }
 
@@ -75,28 +82,25 @@ public class BetItem implements Serializable {
         return End;
     }
 
-    public String getStart()
-    {
+    public String getStart() {
         Log.d(LOG_TAG, "--- getStart start - end ---");
         return getStart("dd-MM-yyyy");
     }
 
     public String getStart(String Format) {
-        Log.d(LOG_TAG, "--- getStart mit Parametern start ---");
+        Log.d(LOG_TAG, "--- getStart mit Parametern ---");
         SimpleDateFormat sdf = new SimpleDateFormat(Format);
-        Log.d(LOG_TAG, "--- getStart mit Parametern start ---");
         return sdf.format(Start.getTime());
     }
 
     public String getEnd() {
-        Log.d(LOG_TAG, "--- getEnd start - end ---");
+        Log.d(LOG_TAG, "--- getEnd ---");
         return getEnd("dd-MM-yyyy");
     }
 
     public String getEnd(String Format) {
-        Log.d(LOG_TAG, "--- getEnd mit Parametern start ---");
+        Log.d(LOG_TAG, "--- getEnd mit Parametern ---");
         SimpleDateFormat sdf = new SimpleDateFormat(Format);
-        Log.d(LOG_TAG, "--- getEnd mit Parametern start ---");
         return sdf.format(End.getTime());
     }
 

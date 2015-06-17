@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
+import java.net.URI;
 import java.util.TimeZone;
 
 import de.rocks.jsdevelopment.betmanagement.model.BetItem;
@@ -239,87 +240,143 @@ public class BetDetailActivity extends Activity {
 
                 //TODO UI (add, edit, ...) fuer Kontakte
                 //TODO Die ausgewaehlte Kontakte auch speichern
-                //TODO genauso für die die dagegen sind
+
                 //TODO Auslagern
-                //TODO Pruefen wie wir mehr Informationen bekommen
+
                 //TODO evtl. die sachen lokal speichern
-                String[] projection = new String[]{
-                        ContactsContract.Contacts._ID,
-                        ContactsContract.Contacts.DISPLAY_NAME,
-//                        ContactsContract.CommonDataKinds.Email.ADDRESS,
-//                        ContactsContract.CommonDataKinds.Phone.NUMBER,
-//                        ContactsContract.CommonDataKinds.Website.URL,
-//                        ContactsContract.CommonDataKinds.Identity.IDENTITY,
-//                        ContactsContract.CommonDataKinds.Organization.COMPANY
-                };
 
-                Cursor cursor = null;
-                String email = "";
-                try {
-                    Uri result = data.getData();
-                    Log.v(LOG_TAG, "Got a contact result: "
-                            + result.toString());
-
-                    // get the contact id from the Uri
-                    String id = result.getLastPathSegment();
-
-                    // query fuer alle Kontakte
-//                    cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
+//
+//                String[] projection = new String[]{
+//                        ContactsContract.Contacts._ID,
+//                        ContactsContract.Contacts.DISPLAY_NAME,
+////                        ContactsContract.CommonDataKinds.Email.ADDRESS,
+////                        ContactsContract.CommonDataKinds.Phone.NUMBER,
+////                        ContactsContract.CommonDataKinds.Website.URL,
+////                        ContactsContract.CommonDataKinds.Identity.IDENTITY,
+////                        ContactsContract.CommonDataKinds.Organization.COMPANY
+//                };
+//
+//                Cursor cursor = null;
+//                String email = "";
+//                try {
+//                    Uri result = data.getData();
+//                    Log.v(LOG_TAG, "Got a contact result: "
+//                            + result.toString());
+//
+//                    // get the contact id from the Uri
+//                    String id = result.getLastPathSegment();
+//
+//                    // query fuer alle Kontakte
+////                    cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI,
+////                            projection, null, null, null);
+//
+//                    cursor = getContentResolver().query(result,
 //                            projection, null, null, null);
-
-                    cursor = getContentResolver().query(result,
-                            projection, null, null, null);
-
-                    String columns[] = cursor.getColumnNames();
-
-                    int indexId = cursor.getColumnIndex(ContactsContract.Contacts._ID);
-                    int indexName = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-
-//                    if (cursor.moveToFirst()) {
-//                        while (cursor.isAfterLast() == false) {
 //
-//                            for (String column : columns) {
-//                                try {
+//                    String columns[] = cursor.getColumnNames();
 //
-//                                    int index = cursor.getColumnIndex(column);
-//                                    Log.v(LOG_TAG, "Column: " + column + " == ["
-//                                            + cursor.getString(index) + "]");
+//                    int indexId = cursor.getColumnIndex(ContactsContract.Contacts._ID);
+//                    int indexName = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
 //
-//                                } catch (Exception e) {
-//                                    Log.e(LOG_TAG, "Failed to get " + column, e);
-//                                }
-//                            }
-//
-////                            if (id == cursor.getString(indexId)){
-////                                tvForBet.setText(cursor.getString(indexName));
+////                    if (cursor.moveToFirst()) {
+////                        while (cursor.isAfterLast() == false) {
+////
+////                            for (String column : columns) {
+////                                try {
+////
+////                                    int index = cursor.getColumnIndex(column);
+////                                    Log.v(LOG_TAG, "Column: " + column + " == ["
+////                                            + cursor.getString(index) + "]");
+////
+////                                } catch (Exception e) {
+////                                    Log.e(LOG_TAG, "Failed to get " + column, e);
+////                                }
 ////                            }
-//
-//                            cursor.moveToNext();
+////
+//////                            if (id == cursor.getString(indexId)){
+//////                                tvForBet.setText(cursor.getString(indexName));
+//////                            }
+////
+////                            cursor.moveToNext();
+////                        }
+////                    } else {
+////                        // no results actions
+////                }
+////
+//                    if (cursor.moveToFirst()) {
+//                        switch (requestCode) {
+//                            case PICK_CONTACT_REQUEST_FOR:
+//                                tvForBet.setText(cursor.getString(indexName));
+//                                break;
+//                            case PICK_CONTACT_REQUEST_AGAINST:
+//                                tvAgainstBet.setText(cursor.getString(indexName));
+//                                break;
 //                        }
-//                    } else {
-//                        // no results actions
+//                    }
+//
+//                } catch (Exception e) {
+//                    Log.e(LOG_TAG, "Failed to get contact data", e);
+//
+//                } finally {
+//                    if (cursor != null) {
+//                        cursor.close();
+//                    }
+//                }
+
+                String id = "", name, phone, email, hasPhone;
+//                int idx;
+//
+//                Cursor cursor = getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null);
+//                if (cursor.moveToFirst()) {
+//                    idx = cursor.getColumnIndex(ContactsContract.Contacts._ID);
+//                    id = cursor.getString(idx);
+//
+//                    idx = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+//                    name = cursor.getString(idx);
+
 //                }
 //
-                    if (cursor.moveToFirst()) {
-                        switch (requestCode) {
-                            case PICK_CONTACT_REQUEST_FOR:
-                                tvForBet.setText(cursor.getString(indexName));
-                                break;
-                            case PICK_CONTACT_REQUEST_AGAINST:
-                                tvAgainstBet.setText(cursor.getString(indexName));
-                                break;
+//                Uri.Builder b = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, id).buildUpon();
+//                b.appendPath(ContactsContract.Contacts.Entity.CONTENT_DIRECTORY);
+//                Uri contactUri = b.build();
+
+
+                Cursor cursor = null;
+
+                    Uri result = data.getData();
+
+                    // get the contact id from the Uri
+                    id = result.getLastPathSegment();
+
+                // Build the Entity URI.
+                Uri.Builder b = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, id).buildUpon();
+                b.appendPath(ContactsContract.Contacts.Entity.CONTENT_DIRECTORY);
+                Uri contactUri = b.build();
+
+// Create the projection (SQL fields) and sort order.
+                String[] projection = {
+                        ContactsContract.Contacts.Entity.RAW_CONTACT_ID,
+                        ContactsContract.Contacts.Entity._ID,
+                        ContactsContract.Contacts.Entity.DISPLAY_NAME,
+                        ContactsContract.Contacts.Entity.DATA1,
+                        ContactsContract.Contacts.Entity.MIMETYPE,
+                };
+                String sortOrder = ContactsContract.Contacts.Entity.DISPLAY_NAME + " ASC";
+                cursor = getContentResolver().query(contactUri, projection, null, null, null);
+
+                String mime;
+                int mimeIdx = cursor.getColumnIndex(ContactsContract.Contacts.Entity.MIMETYPE);
+                int dataIdx = cursor.getColumnIndex(ContactsContract.Contacts.Entity.DATA1);
+                if (cursor.moveToFirst()) {
+                    do {
+                        mime = cursor.getString(mimeIdx);
+                        if (mime.equalsIgnoreCase(ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)) {
+                            email = cursor.getString(dataIdx);
                         }
-                    }
 
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, "Failed to get contact data", e);
-
-                } finally {
-                    if (cursor != null) {
-                        cursor.close();
-                    }
+                        // ...etc.
+                    } while (cursor.moveToNext());
                 }
-
             }
         }
         Log.d(LOG_TAG, "--- onActivityResult end ---");
