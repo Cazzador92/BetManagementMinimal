@@ -18,7 +18,9 @@
     <string name="value_create">Wette erstellt</string>
     <string name="value_update">Wette aktualisiert</string>
     <string name="value_delete">Wette entfernt</string>
-    
+    <string name="AgainstBet">Dagegen</string>
+    <string name="ForBet">Dafür</string>
+
     <!--*******************************************************-->
 
 

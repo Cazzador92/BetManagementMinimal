@@ -32,8 +32,8 @@ public class StartActivity extends ActionBarActivity implements AdapterView.OnIt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(LOG_TAG, "--- onCreate start ---");
-        //setContentView(R.layout.activity_start);
-        setContentView(R.layout.activity_test);
+        setContentView(R.layout.activity_start);
+        //setContentView(R.layout.activity_test);
         FillBetList();
         Log.d(LOG_TAG, "--- onCreate end ---");
     }
@@ -79,23 +79,23 @@ public class StartActivity extends ActionBarActivity implements AdapterView.OnIt
         Log.d(LOG_TAG, "--- FillBetList start ---");
 
         mBetList = new BetList(this);
-        mBetList2 = new BetList(this);
+       //mBetList2 = new BetList(this);
         mLVBets = (ListView) findViewById(R.id.LVBets);
-        mLVBets2 = (ListView) findViewById(R.id.LVBets2);
+       //mLVBets2 = (ListView) findViewById(R.id.LVBets2);
         Log.d(LOG_TAG, "--- init end ---");
         //Handler setzen.
         mLVBets.setOnItemClickListener(this);
         mLVBets.setOnItemLongClickListener(this);
-        mLVBets2.setOnItemClickListener(this);
-        mLVBets2.setOnItemLongClickListener(this);
+        //mLVBets2.setOnItemClickListener(this);
+        //mLVBets2.setOnItemLongClickListener(this);
         Log.d(LOG_TAG, "--- handler end ---");
 
-        mBetList2.add(new BetItem(1,"testtitleZweiteListe","desc", Calendar.getInstance(),Calendar.getInstance()));
+        //mBetList2.add(new BetItem(1,"testtitleZweiteListe","desc", Calendar.getInstance(),Calendar.getInstance()));
 
 
         //Adapter setzen und laden.
         mLVBets.setAdapter(new BetListAdapter(this,mBetList.getBetList()));
-        mLVBets2.setAdapter(new BetListAdapter(this,mBetList2.getBetList()));
+        //mLVBets2.setAdapter(new BetListAdapter(this,mBetList2.getBetList()));
 
         Log.d(LOG_TAG, "--- FillBetList end ---");
     }
