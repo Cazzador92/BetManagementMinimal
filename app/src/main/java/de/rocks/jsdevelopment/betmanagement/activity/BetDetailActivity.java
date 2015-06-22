@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.net.URI;
@@ -26,6 +27,7 @@ import java.util.TimeZone;
 import de.rocks.jsdevelopment.betmanagement.model.BetItem;
 import de.rocks.jsdevelopment.betmanagement.fragment.DatePicker;
 import de.rocks.jsdevelopment.betmanagement.R;
+import de.rocks.jsdevelopment.betmanagement.model.ContactList;
 
 
 public class BetDetailActivity extends Activity {
@@ -211,10 +213,13 @@ public class BetDetailActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                Intent pickContactIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+               // Intent pickContactIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
 
-                startActivityForResult(pickContactIntent, PICK_CONTACT_REQUEST_FOR);
+               // startActivityForResult(pickContactIntent, PICK_CONTACT_REQUEST_FOR);
+                ContactList Contacts = new ContactList(v.getContext());
 
+                //TODO Besprechen wie man hier am besten vorgeht -> Activity die ausgewählte zurückgibt?
+                Toast.makeText(getBaseContext(), "Kontakte sind geladen werden aber noch nicht angezeigt.", Toast.LENGTH_LONG).show();
             }
         });
 
