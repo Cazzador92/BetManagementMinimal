@@ -16,7 +16,7 @@ import java.util.List;
 public class ContactList {
 
     private Context mContext;
-    private List<Contact> mContacts;
+    private ArrayList<Contact> mContacts;
 
     public ContactList(Context context){
         mContext = context;

@@ -1,0 +1,532 @@
+http://sachindotg.blogspot.de/2013/11/android-simple-multi-contacts-picker.html
+
+ Android - Simple Multi-Contacts Picker with Listview and Checkbox
+I assume the reader to have basic android programming skills. This post will cover the making of a simple android contact picker with the following features
+
+    Asynchronous loading of contact with AsyncTask
+    Display of all contacts in a Listview with the help of an Adapter
+    Multi Contact Select with Checkbox
+    Contact Search/Filtering
+    The Activity will return the contacts as a Bundled Result
+
+Final Result
+Steps:
+
+    Set up Contact Access Permission in AndroidManifest.xml
+    Create the layouts for Contact Picker
+    Java code to Invoke ContactPicker Activity
+    Create Wrapper Class for a Contact
+    Create Wrapper Class for ContactList
+    Create an Adapter for the List View
+    Load Contacts Asynchronously
+    The ContactPicker class (Activity)
+    Receiving Data from Contact Picker to your Activity
+
+Step 1: Set up Contact Access Permission in AndroidManifest.xml
+Add the following line in AndroidManifest.xml before <application/>
+
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+
+
+Step 2: Create the layouts for Contact Picker
+
+Two layouts(res/layouts folder) have to be created, one for the contact picker activity and other for each contact that is to be displayed. The activity constitutes of an EditText as the search box, a ListView for displaying the list of contacts and an OK Button. The second layout is for each item in the list. Here I've only given a Checkbox for the sake of simplicity. You may add Contact Images, other texts etc as required.
+
+    activity_contact_picker.xml
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" xmlns:android1="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" tools:context=".ContactPicker" >
+    <Button android1:id="@+id/btnDone" android1:layout_width="wrap_content" android1:layout_height="wrap_content" android1:layout_alignParentBottom="true" android1:layout_alignParentLeft="true" android1:layout_alignParentRight="true" android1:text="Done" />
+    <EditText android1:id="@+id/txt_searchContact" android1:layout_width="match_parent" android1:layout_height="wrap_content" android1:layout_alignParentLeft="true" android1:layout_alignParentTop="true" android1:ems="10" android1:hint="@string/placeholder_search" android1:inputType="text" > </EditText>
+    <ListView android1:id="@+id/lst_contactList" android1:layout_width="match_parent" android1:layout_height="wrap_content" android1:layout_above="@+id/btnDone" android1:layout_alignParentLeft="true" android1:layout_below="@+id/txt_searchContact" > </ListView>
+    </RelativeLayout>
+
+    contact_list_layout.xml
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" >
+    <CheckBox android:id="@+id/chkbxContact" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentLeft="true" />
+    </RelativeLayout>
+
+
+
+
+Step 3 : Java code to Invoke ContactPicker Activity
+
+I'm assuming that this activity will be invoked by a Click Event of a Button or ImageButton(eg : Add Contacts Button)
+
+    ImageButton addCon = (ImageButton) findViewById(R.id.iBtn_AddContacts);
+
+    addCon.setOnClickListener(new View.OnClickListener() {
+
+    @Override
+    public void onClick(View v)
+    {
+
+    final int request_code = 1010;
+    startActivityForResult(new Intent(CreateContactGroup.this,ContactPicker.class),request_code);
+
+    }
+    });
+
+It is to be noted that startActivityForResult() method is used instead of the usual startActivity() method. The request_code is an id. request_code helps us to identify between activities, if multiple activities are returning results. Here, CreateContactGroup is the Activity from which Contact Picker activity is invoked.
+
+
+The Class Definition in Steps 3- will be written inside the ContactPicker class which extends Activity.
+Step 4: Create Wrapper Class for a Contact
+
+    class G_Contact
+    {
+
+    public String id,name,phone,label;
+
+    G_Contact(String tid, String tname,String tphone,String tlabel)
+    {
+    this.id=tid;
+    this.name=tname;
+    this.phone=tphone;
+    this.label=tlabel;
+    }
+    }
+
+
+
+Step 5: Create Wrapper Class for ContactList
+
+    class G_ContactList
+    {
+
+    private ArrayList<G_Contact> contacts = new ArrayList<G_Contact>();
+
+    public int getCount()
+    {
+      return this.contacts.size();
+    }
+    public void addContact(G_Contact c)
+    {
+      this.contacts.add(c);
+    }
+    public void removeContact(G_Contact c)
+    {
+      this.contacts.remove(c);
+    }
+    public void removeContact(int id)
+    {
+      for(int i=0;i<this.getCount();i++)
+      {
+       if(id==Integer.parseInt(this.contacts.get(i).id))
+       {
+         this.contacts.remove(this.contacts.get(i));
+       }
+      }
+    }
+    public G_Contact getContact(int id)
+    {
+      G_Contact tmp=null;
+      for(int i=0;i<this.getCount();i++)
+      {
+        if(id==Integer.parseInt(this.contacts.get(i).id))
+        {
+         tmp = new G_Contact(this.contacts.get(i).id,this.contacts.get(i).name,this.contacts.get(i).phone,this.contacts.get(i).label);
+        }
+      }
+      return tmp;
+    }
+    public ArrayList<G_Contact> getContacts()
+    {
+      return contacts;
+    }
+    public void setContacts(ArrayList<G_Contact> c)
+    {
+      this.contacts=c;
+    }
+
+    }
+
+Wrapper Classes helps to improve code readability. I have put in some methods in the wrapper classes above, you may add or remove methods as per your requirement.
+
+Step 6: Create an Adapter for the List View
+
+    class ContactListAdapter extends BaseAdapter
+    {
+      Context context;
+      G_ContactList gcl;
+      G_ContactList selectedContacts;
+
+      public ContactListAdapter(Context context,G_ContactList gcl)
+      {
+       super();
+       this.context = context;
+       this.gcl=gcl;
+       selectedContacts = new G_ContactList();
+
+      }
+    /*Custom View Generation(You may modify this to include other Views) */
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
+      LayoutInflater inflater = (LayoutInflater)    context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+     View view_row = inflater.inflate(R.layout.contact_list_layout, parent,false);
+
+      CheckBox chk_contact = (CheckBox) view_row.findViewById(R.id.chkbxContact);
+       chk_contact.setId(Integer.parseInt(gcl.getContacts().get(position).id));
+
+     //Text to display near checkbox [Here, Contact_Name (Number Label : Phone Number)]
+       chk_contact.setText(gcl.getContacts().get(position).name.toString() + " ( "+gcl.getContacts().get(position).label+" : " + gcl.getContacts().get(position).phone.toString() + ")");
+
+
+    if(alreadySelected(gcl.getContacts().get(position)))
+    {
+       chk_contact.setChecked(true);
+    }
+
+     //Code to get Selected Contacts.
+       chk_contact.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+      @Override
+      public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+
+
+      G_Contact t = gcl.getContact(arg0.getId());
+      if(t!=null && arg1)
+      {
+
+                        if(!alreadySelected(t))
+              selectedContacts.addContact(t);
+
+      }
+      else if(!arg1 && t!=null)
+      {
+        selectedContacts.removeContact(arg0.getId());
+      }
+
+
+     }
+
+    });
+
+     return view_row;
+    }
+    public boolean alreadySelected(G_Contact t)
+    {
+      boolean ret = false;
+
+      if(selectedContacts.getContact(Integer.parseInt(t.id))!=null)
+           ret=true;
+
+      return ret;
+    }
+    @Override
+    public int getCount() {
+
+     return gcl.getCount();
+    }
+
+    @Override
+    public G_Contact getItem(int arg0) {
+     // TODO Auto-generated method stub
+     return gcl.getContacts().get(arg0);
+    }
+
+    @Override
+    public long getItemId(int arg0) {
+      // TODO Auto-generated method stub return      Long.parseLong(gcl.getContacts().get(arg0).id);
+    }
+    }
+
+The getView() method is noteworthy here. This method is used to render custom views. I have also added an OnCheckedChangeListener to each of the checkbox. This listener updates the selectedContacts object, which holds a list of contacts which the user has selected.
+
+Step 7: Load Contacts Asynchronously
+Having set up all the elements, now we need to load contacts from the phone database. As a phone may contain 1000+ contacts, fetching them in the usual code is not advised, as the Activity will have to wait till the contacts are loaded and displayed, which will be a bad user experience. Hence we will use android's AsyncTask to load contacts asynchronously and update the contact list on-the-go.
+
+    class AsyncContactLoader extends AsyncTask
+    {
+
+
+     ContactListAdapter cla;
+     ProgressDialog pgdlg;
+
+
+     AsyncContactLoader(ContactListAdapter adap)
+     {
+      //init AsyncLoader with the ListView Adapter
+
+      cla = adap;
+     }
+
+    protected void onPreExecute()
+    {
+     //Show a pop up message
+
+     pgdlg = ProgressDialog.show(ContactPicker.this, "Please Wait", "Loading Contacts with Phone Numbers",true);
+    }
+
+
+    //Loading Contacts
+
+    @Override
+    protected G_ContactList doInBackground(String... filters )
+    {
+     G_ContactList glst=null;
+
+    //Filter = text in search textbox
+
+     String filter = filters[0];
+     ContentResolver cr = getContentResolver();
+     int count=0;
+
+    //Code to fetch contacts...
+
+     Uri uri = ContactsContract.Contacts.CONTENT_URI;
+
+    //Fields to select from database
+    String[] projection = new String[]{
+    ContactsContract.Contacts._ID,
+    ContactsContract.Contacts.DISPLAY_NAME,
+    ContactsContract.Contacts.HAS_PHONE_NUMBER
+    };
+
+    /*Querying database (Select fields in projection from database where contact name like 'filter%', sort by name, in ascending order)*/
+     Cursor cursor = cr.query(uri, projection,  ContactsContract.Contacts.DISPLAY_NAME + " LIKE ?", new  String[] {filter.toString()},  ContactsContract.Contacts.DISPLAY_NAME+ " ASC");
+
+     //Log.v("", "Contacts : "+cursor.getCount());
+
+
+     if(cursor.getCount()>0)
+     {
+
+      glst=new G_ContactList();
+
+      while(cursor.moveToNext())
+      {
+
+    //Filtering Contacts with Phone Numbers
+
+     if(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)))>0)
+     {
+
+      String id =  cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+     String name = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+
+    //Phone numbers lies in a separate table. Querying that table with Contact ID
+
+     Cursor ph_cur = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, ContactsContract.CommonDataKinds.Phone.CONTACT_ID +"=?", new String[] {id}, null);
+    while(ph_cur.moveToNext())
+    {
+
+     String phId = ph_cur.getString(ph_cur.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
+
+    //Label eg : home, office etc. They are stored as int values
+
+     String customLabel = ph_cur.getString(ph_cur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.LABEL));
+     String label = (String)ContactsContract.CommonDataKinds.Phone.getTypeLabel(getResources(),ph_cur.getInt(ph_cur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE)),customLabel);
+    String ph_no = ph_cur.getString(ph_cur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+    G_Contact tmp = new G_Contact(phId,name,ph_no,label);
+    glst.addContact(tmp);
+    count++;
+
+
+    //Refresh ListView upon loading 100 Contacts
+
+      if(count==100)
+      {
+       publishProgress(glst);
+       count=0;
+      }
+
+     }
+     ph_cur.close();
+    }
+
+
+    }
+    cursor.close();
+
+    }
+
+
+    return glst;
+    }
+
+    //Code to refresh list view
+
+    @Override
+    protected void onProgressUpdate(G_ContactList... glsts )
+    {
+    if(pgdlg.isShowing())
+    pgdlg.dismiss();
+    cla.gcl = glsts[0];
+    cla.notifyDataSetChanged();
+    //Log.v("Progress", cla.getCount()+" loaded");
+    }
+
+    @Override
+    //Loading contacts finished, refresh list view to load any missed out contacts
+
+    protected void onPostExecute(G_ContactList result)
+    {
+    if(pgdlg.isShowing())
+    pgdlg.dismiss();
+    cla.gcl=result;
+    cla.notifyDataSetChanged();
+    //Log.v("Progress ::", cla.getCount()+" total loaded");
+    //Toast.makeText(ContactPicker.this, cla.getCount()+" Contact(s) Found", Toast.LENGTH_LONG).show();
+    }
+
+
+    }
+
+Here, the AsyncContactLoader takes three generics . The first one is the parameter type for doInBackground() method. Here it is the search text(String). The Second one is for the onProgressUpdate() method which is invoked upon publishProgress() method. Here it is G_ContactList, the updated contact list with new contacts. The third one is for onPostExecute() method and doInBackground() method. doInBackground() will return a G_ContactList object which will be the argument for onPostExecute() method. Google Java Generics and android AsyncTask for more details.
+The Async loader fetches 100 contacts with phone number from the database and updates the listview.
+
+
+Step 8: Finally, the ContactPicker class (Activity)
+
+    public class ContactPicker extends Activity {
+
+    ContactListAdapter adapter;
+    ListView list_Contact;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_contact_picker);
+
+
+
+    list_Contact = (ListView) findViewById(R.id.lst_contactList);
+
+    adapter = new ContactListAdapter(this,new G_ContactList());
+    list_Contact.setAdapter(adapter);
+
+    try
+    {
+    //Running AsyncLoader with adapter and blank filter
+    new AsyncContactLoader(adapter).execute("%");
+    }
+    catch(Exception e)
+    {
+    e.printStackTrace();
+    }
+
+    EditText srchBox = (EditText) findViewById(R.id.txt_searchContact);
+
+    //Adding text change listener for filtering contacts srchBox.addTextChangedListener(new TextWatcher(){
+
+    @Override
+    public void afterTextChanged(Editable s) {
+    // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    // TODO Auto-generated method stub
+
+    }
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before,int count)
+    {
+    String filter=s.toString().trim()+"%";
+
+
+    //Running AsyncLoader with adapter and search text as parameters
+
+    try
+    {
+    new AsyncContactLoader(adapter).execute(filter);
+    }
+    catch(Exception e)
+    {
+    e.printStackTrace();
+    }
+    }
+
+    });
+
+    //Code to return selected contacts...
+    Button btnDone = (Button) findViewById(R.id.btnDone);
+
+    btnDone.setOnClickListener(new View.OnClickListener() {
+
+    @Override
+    public void onClick(View arg0) {
+
+
+
+    Intent intent = new Intent();
+    if(adapter.selectedContacts.getCount()>0)
+    {
+
+     String[][] sel_cons = new String[adapter.selectedContacts.getCount()][4];
+    for(int i=0;i<adapter.selectedContacts.getCount();i++)
+    {
+     sel_cons[i][0] = adapter.selectedContacts.getContacts().get(i).id;
+     sel_cons[i][1] = adapter.selectedContacts.getContacts().get(i).name;
+     sel_cons[i][2] = adapter.selectedContacts.getContacts().get(i).phone;
+     sel_cons[i][3] = adapter.selectedContacts.getContacts().get(i).label;
+    }
+
+
+
+     //Bundling up the contacts to pass
+     Bundle data_to_pass = new Bundle();
+
+     data_to_pass.putSerializable("selectedContacts", sel_cons);
+
+     intent.putExtras(data_to_pass);
+     setResult(RESULT_OK,intent);
+     Log.v("Result", "ok");
+    }
+    else
+    {
+    //If user presses back button without selecting any contact
+     Log.v("Result", "cancelled");
+     setResult(RESULT_CANCELED,intent);
+    }
+    //Ending Activity and passing result
+
+    finish();
+
+    }
+    });
+
+    }//End of onCreate()
+    //AsyncContactLoader Class Definition Goes Here
+    //ContactListAdapter Class Definition Goes Here
+    //G_ContactList Class Definition Goes Here
+    //G_Contact Class Definition Goes Here
+
+    }//End of Class ContactPicker
+
+
+
+Step 9: Receiving Data from Contact Picker to your Activity
+For this, you will need to override onActivityResult() method.
+
+    @Override
+    public void onActivityResult(int requestCode,int resultCode,Intent data)
+    {
+     super.onActivityResult(requestCode, resultCode, data);
+
+
+     if(resultCode==RESULT_OK && !data.getExtras().isEmpty() && data.getExtras().containsKey("selectedContacts"))
+    {
+
+      Object[] objArray = (Object[])data.getExtras().getSerializable("selectedContacts");
+      String selectedContacts[][]=null;
+      if(objArray!=null)
+      {
+      selectedContacts = new String[objArray.length][];
+      for(int i=0;i<objArray.length;i++)
+      {
+        selectedContacts[i] = (String[]) objArray[i];
+      }
+
+     //Now selectedContacts[] contains the selected contacts
+      }
+     }
+
+    }
+

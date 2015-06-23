@@ -1,0 +1,105 @@
+
+
+Okay, after lots of digging, I found what I believe to be the answers. The solutions I found differ according to which Android API level you're using. However, they're not pretty at all, so if there are better solutions, I'd love to know.
+
+In any case, the first step is to get the ID of the Contact, by doing a query on the URI returned from Intent.ACTION_PICK. While we're here, we should also get the display name, and the string representing whether the contact has a phone number or not. (We won't need them for the modern solution, but we will need them for the legacy solution.)
+
+String id, name, phone, hasPhone;
+int idx;
+Cursor cursor = getContentResolver().query(contactUri, null, null, null, null);
+if (cursor.moveToFirst()) {
+    idx = cursor.getColumnIndex(ContactsContract.Contacts._ID);
+    id = cursor.getString(idx);
+
+    idx = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+    name = cursor.getString(idx);
+
+    idx = cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
+    hasPhone = cursor.getString(idx);
+}
+
+For the record, the columns returned from this URI are most of the fields represented by constants in the ContactsContract.Profile class (including constants inherited from other interfaces). Not included are PHOTO_FILE_ID, PHOTO_THUMBNAIL_URI, or PHOTO_URI (but PHOTO_ID is included).
+
+Now that we have the ID, we need to get the relevant data. The first (and simplest) solution is to query an Entity. Entity queries retrieve all of the contacts data for a contact or raw contact at once. Each row represents a single Raw Contact, accessed using the constants in ContactsContract.Contacts.Entity. Usually you'll only be concerned with RAW_CONTACT_ID, DATA1, and MIMETYPE. However, if you want the first and last names separately, the Name MIME type holds the first name in DATA2 and the last name in DATA3.
+
+You load up the variables by matching the MIMETYPE column with ContactsContract.CommonDataKinds constants; for example, the email MIME type is in ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE.
+
+// Build the Entity URI.
+Uri.Builder b = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, id).buildUpon();
+b.appendPath(ContactsContract.Contacts.Entity.CONTENT_DIRECTORY);
+URI contactUri = b.build();
+
+// Create the projection (SQL fields) and sort order.
+String[] projection = {
+        ContactsContract.Contacts.Entity.RAW_CONTACT_ID,
+        ContactsContract.Contacts.Entity.DATA1,
+        ContactsContract.Contacts.Entity.MIMETYPE };
+String sortOrder = ContactsContract.Contacts.Entity.RAW_CONTACT_ID + " ASC";
+cursor = getContentResolver().query(contactUri, projection, null, null, sortOrder);
+
+String mime;
+int mimeIdx = cursor.getColumnIndex(ContactsContract.Contacts.Entity.MIMETYPE);
+int dataIdx = cursor.getColumnIndex(ContactsContract.Contacts.Entity.DATA1);
+if (cursor.moveToFirst()) {
+    do {
+        mime = cursor.getString(mimeIdx);
+        if (mime.equalsIgnoreCase(ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)) {
+            email = cursor.getString(dataIdx);
+        }
+        if (mime.equalsIgnoreCase(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)) {
+            phone = cursor.getString(dataIdx);
+        }
+        // ...etc.
+    } while (cursor.moveToNext());
+}
+
+Unfortunately, Entities were not introduced unti API 11 (Android 3.0, Honeycomb), which means this code is incompatible with roughly 65% of the Android devices in the marketplace (as of this writing). If you try it, you will get an IllegalArgumentException from the URI.
+
+The second solution is to build a query string, and make one query for each data type you want to use:
+
+// Get phone number - if they have one
+if ("1".equalsIgnoreCase(hasPhone)) {
+    cursor = getContentResolver().query(
+            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+            null,
+            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = "+ id, 
+            null, null);
+    if (cursor.moveToFirst()) {
+        colIdx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+        phone = cursor.getString(colIdx);
+    }
+    cursor.close();
+}
+
+// Get email address
+cursor = getContentResolver().query(
+        ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+        null,
+        ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + id,
+        null, null);
+if (cursor.moveToFirst()) {
+    colIdx = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS);
+    email = cursor.getString(colIdx);
+}
+cursor.close();
+
+// ...etc.
+
+Obviously, this way will result in a lot of separate database queries, so it's not recommended for efficiency reasons.
+
+The solution I've come up with is to try the version that uses Entity queries, catch the IllegalArgumentException, and put the legacy code inside the catch block:
+
+try {
+    // Build the Entity URI.
+    Uri.Builder b = Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, id).buildUpon();
+    b.appendPath(ContactsContract.Contacts.Entity.CONTENT_DIRECTORY);
+        // ...etc...
+} catch (IllegalArgumentException e) {
+    // Get phone number - if they have one
+    if ("1".equalsIgnoreCase(hasPhone)) {   
+        // ...etc...
+} finally {
+    // If you want to display the info in GUI objects, put the code here
+}
+
+I hope this helps someone. And, again, if there are better ways to do this, I'm all ears.
